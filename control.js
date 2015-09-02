@@ -1,34 +1,34 @@
 			// Funktion zur Steuerung
 			function keyDownHandler(event) {
 				var step = 5;
+				var up = 0;
 			// key left
 				if ( event.keyCode === 37) {
 					// if barrier -> stop
-					// if item -> update itemlist
-					cube.position.x += -step;
-					cube.position.y += 0;
+					cube.translateX( -step );
+					cube.translateY( up );
 					// camera moves
 					camera.position.x += -step;
 					camera.position.y += 0;
 				}
 			// key up
 				else if( event.keyCode === 38 ) {
-					cube.position.y += 0;
-					cube.position.z += -step;
+					cube.translateZ( -step );
+					cube.translateY( up );
 					camera.position.y += 0;
 					camera.position.z += -step;
 				} 
 			// key right
 				else if ( event.keyCode === 39 ) {
-					cube.position.x += step;
-					cube.position.y += 0;
+					cube.translateX( step );
+					cube.translateY( up );
 					camera.position.x += step;
 					camera.position.y += 0;
 				}
 			// key down
 				else if ( event.keyCode === 40 ) {
-					cube.position.y += 0;
-					cube.position.z += step;
+					cube.translateZ( step );
+					cube.translateY( up );
 					camera.position.y += 0;
 					camera.position.z += step;
 				}

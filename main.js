@@ -1,6 +1,9 @@
 			var camera, scene, renderer;
-			var cube, item;
-
+			var cube, itemApfel, itemPilz, itemBlume;
+			var scoreBlumen = 0;
+			var apfelGet = false;
+			var pilzGet = false;
+			var blumenGet = false;
 
 
 			init();
@@ -50,7 +53,7 @@
 
 			// Cube
 				var geometry = new THREE.BoxGeometry( 100, 100, 100 );
-				var material = new THREE.MeshPhongMaterial( { color:  'rgb(255,0,0)', emissive: 0x200000, wireframe:false } );
+				var material = new THREE.MeshPhongMaterial( { color:  'rgb(255,0,0)', emissive: 0x200000, wireframe:true } );
 
 				cube = new THREE.Mesh( geometry, material);
 				scene.add( cube );
@@ -62,14 +65,31 @@
 				scene.add( light );
 
 
-			// item
+			// item Apfel
 				var geometry2 = new THREE.BoxGeometry( 50, 50, 50 );
 				//var material = new THREE.MeshLambertMaterial( { color: 'rgb(255,0,0)', emissive: 0x200000 } );
 				var material2 = new THREE.MeshBasicMaterial( { color: 0x0000ff, wireframe:true } );
-				item = new THREE.Mesh( geometry2, material2);
-				scene.add( item );
-				item.position.set(100, 50/2, 0);	
+				itemApfel = new THREE.Mesh( geometry2, material2);
+				scene.add( itemApfel );
+				itemApfel.position.set(100, 50/2, 0);
 
+
+			// item Pilz
+				var geometry3 = new THREE.BoxGeometry( 50, 50, 50 );
+				//var material = new THREE.MeshLambertMaterial( { color: 'rgb(255,0,0)', emissive: 0x200000 } );
+				var material3 = new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe:true } );
+				itemPilz = new THREE.Mesh( geometry3, material3);
+				scene.add( itemPilz );
+				itemPilz.position.set(-200, 50/2, 0);
+
+
+			// item Blume
+				var geometry4 = new THREE.BoxGeometry( 50, 50, 50 );
+				//var material = new THREE.MeshLambertMaterial( { color: 'rgb(255,0,0)', emissive: 0x200000 } );
+				var material4 = new THREE.MeshBasicMaterial( { color: 0xffff00, wireframe:true } );
+				itemBlume = new THREE.Mesh( geometry4, material4);
+				scene.add( itemBlume );
+				itemBlume.position.set(0, 50/2, 100);	
 			}
 
 			function onWindowResize() {
@@ -85,6 +105,10 @@
 
 				requestAnimationFrame( animate )
 
+			// rotation item
+				itemApfel.rotation.y += 0.01;
+
+			// render-update
 				renderer.render( scene, camera );
 
 			}		
