@@ -62,6 +62,5 @@
 				else if ( event.keyCode === 71 ) {
 					alert(cube.position.x + ", " + cube.position.y + ", " + cube.position.z );
 				}
-				
 				checkItem();
 			}

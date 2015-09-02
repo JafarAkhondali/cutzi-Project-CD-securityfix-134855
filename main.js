@@ -107,6 +107,8 @@
 
 			// rotation item
 				itemApfel.rotation.y += 0.01;
+				itemPilz.rotation.y += 0.01;
+				itemBlume.rotation.y += 0.01;
 
 			// render-update
 				renderer.render( scene, camera );

@@ -1,5 +1,6 @@
 // Funktion um Items aufzusammeln
 	function checkItem() {
+		// Apfel aufsammeln
 		if ( apfelGet == false ) {
 			if ( cube.position.x == itemApfel.position.x && cube.position.z == itemApfel.position.z ) {
 				alert( "Apfel aufgesammelt" );
@@ -7,6 +8,7 @@
 				apfelGet = true;
 			}
 		} 
+		// Pilz aufsammeln
 		if ( pilzGet == false ) {
 			if ( cube.position.x == itemPilz.position.x && cube.position.z == itemPilz.position.z ) {
 				alert( "Pilz aufgesammelt" );
@@ -14,6 +16,7 @@
 				pilzGet = true;
 			}
 		}
+		// Blumen aufsammeln
 		if ( blumenGet == false ) {	
 			if ( cube.position.x == itemBlume.position.x && cube.position.z == itemBlume.position.z ) {
 				scoreBlumen += 10;
