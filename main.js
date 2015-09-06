@@ -52,13 +52,13 @@
 
 
 			// Cube
-				var cubeSize = 50;
+				var cubeSize = 30;
 				var geometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
 				var material = new THREE.MeshPhongMaterial( { color:  'rgb(255,0,0)', emissive: 0x200000, wireframe:true } );
 
 				cube = new THREE.Mesh( geometry, material);
 				scene.add( cube );
-				//cube.position.set(-1500, cubeSize/2, 1760);	
+				//cube.position.set(-1500, 100/2, 1760);	
 				cube.position.set(0, cubeSize/2, 0);
 
 			// Light
