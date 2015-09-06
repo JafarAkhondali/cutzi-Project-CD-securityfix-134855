@@ -4,6 +4,7 @@
 			var apfelGet = false;
 			var pilzGet = false;
 			var blumenGet = false;
+			var collidableMeshList = [];
 
 
 			init();
@@ -17,9 +18,8 @@
 
 			// Camera
 				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
-				camera.position.z = 400;
-				camera.position.y = 200;
-				camera.rotation.x += 50;
+				//camera.position.set(-1500, 100, 2000);
+				camera.position.set(0, 100, 200);
 
 
 			// Renderer
@@ -36,7 +36,7 @@
 
 
 			// Grid
-				var size = 500, step = 10;
+				var size = 2000, step = 10;
 				var geometry = new THREE.Geometry();
 				var material = new THREE.LineBasicMaterial( { color: 0x303030 } );
 				for ( var i = - size; i <= size; i += step ) {
@@ -52,13 +52,14 @@
 
 
 			// Cube
-				var geometry = new THREE.BoxGeometry( 100, 100, 100 );
+				var cubeSize = 30;
+				var geometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
 				var material = new THREE.MeshPhongMaterial( { color:  'rgb(255,0,0)', emissive: 0x200000, wireframe:true } );
 
 				cube = new THREE.Mesh( geometry, material);
 				scene.add( cube );
-				cube.position.set(0, 100/2, 0);	
-				
+				//cube.position.set(-1500, 100/2, 1760);	
+				cube.position.set(0, cubeSize/2, 0);
 
 			// Light
 				var light = new THREE.AmbientLight( 0x808080 );
@@ -66,30 +67,57 @@
 
 
 			// item Apfel
-				var geometry2 = new THREE.BoxGeometry( 50, 50, 50 );
+				var apfelSize = 30;
+				var geometry2 = new THREE.BoxGeometry( apfelSize, apfelSize, apfelSize );
 				//var material = new THREE.MeshLambertMaterial( { color: 'rgb(255,0,0)', emissive: 0x200000 } );
 				var material2 = new THREE.MeshBasicMaterial( { color: 0x0000ff, wireframe:true } );
 				itemApfel = new THREE.Mesh( geometry2, material2);
 				scene.add( itemApfel );
-				itemApfel.position.set(100, 50/2, 0);
+				itemApfel.position.set(1120, apfelSize/2, 1800);
 
 
 			// item Pilz
-				var geometry3 = new THREE.BoxGeometry( 50, 50, 50 );
+				var pilzSize = 15; 
+				var geometry3 = new THREE.BoxGeometry( pilzSize, pilzSize, pilzSize );
 				//var material = new THREE.MeshLambertMaterial( { color: 'rgb(255,0,0)', emissive: 0x200000 } );
 				var material3 = new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe:true } );
 				itemPilz = new THREE.Mesh( geometry3, material3);
 				scene.add( itemPilz );
-				itemPilz.position.set(-200, 50/2, 0);
+				itemPilz.position.set(-1320, pilzSize/2, -1380);
 
 
 			// item Blume
-				var geometry4 = new THREE.BoxGeometry( 50, 50, 50 );
+				var blumeSize = 25;
+				var geometry4 = new THREE.BoxGeometry( blumeSize, blumeSize, blumeSize );
 				//var material = new THREE.MeshLambertMaterial( { color: 'rgb(255,0,0)', emissive: 0x200000 } );
 				var material4 = new THREE.MeshBasicMaterial( { color: 0xffff00, wireframe:true } );
 				itemBlume = new THREE.Mesh( geometry4, material4);
 				scene.add( itemBlume );
-				itemBlume.position.set(0, 50/2, 100);	
+				itemBlume.position.set(-980, blumeSize/2, 1650);
+
+
+			// Wall test				
+				var wallGeometry = new THREE.CubeGeometry( 100, 100, 20, 1, 1, 1 );
+				var wallMaterial = new THREE.MeshBasicMaterial( {color: 0x8888ff} );
+				var wireMaterial = new THREE.MeshBasicMaterial( { color: 0x000000, wireframe:true } );
+				
+				var wall = new THREE.Mesh(wallGeometry, wallMaterial);
+				wall.position.set(100, 50, -100);
+				scene.add(wall);
+				collidableMeshList.push(wall);
+				var wall = new THREE.Mesh(wallGeometry, wireMaterial);
+				wall.position.set(100, 50, -100);
+				scene.add(wall);
+				
+				var wall2 = new THREE.Mesh(wallGeometry, wallMaterial);
+				wall2.position.set(-150, 50, 0);
+				wall2.rotation.y = 3.14159 / 2;
+				scene.add(wall2);
+				collidableMeshList.push(wall2);
+				var wall2 = new THREE.Mesh(wallGeometry, wireMaterial);
+				wall2.position.set(-150, 50, 0);
+				wall2.rotation.y = 3.14159 / 2;
+				scene.add(wall2);	
 			}
 
 			function onWindowResize() {
