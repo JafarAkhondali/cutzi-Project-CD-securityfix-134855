@@ -50,7 +50,9 @@
 				var line = new THREE.Line( geometry, material, THREE.LinePieces );
 				scene.add( line );
 
-
+				
+			//TEST
+			
 			// Cube
 				var cubeSize = 30;
 				var geometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
