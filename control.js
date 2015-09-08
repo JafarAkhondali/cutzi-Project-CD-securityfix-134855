@@ -64,6 +64,10 @@
 					alert(cube.position.x + ", " + cube.position.y + ", " + cube.position.z );
 				}
 				checkItem();
+				checkQuest();
+				// console.log('x' + cube.position.x);
+				// console.log('y' + cube.position.y);
+				// console.log('z' + cube.position.z);
 			}
 
 		// Kollisionserkennung; erkennt Wände, kann aber z.B. nicht nach rechts laufen, wenn vertexIndex = 1, geht aber nach rechts (an wand entlang)

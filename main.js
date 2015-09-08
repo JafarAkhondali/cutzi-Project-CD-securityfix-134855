@@ -1,10 +1,11 @@
 			var camera, scene, renderer;
-			var cube, itemApfel, itemPilz, itemBlume;
+			var cube, itemApfel, itemPilz, itemBlume, tabaluga;
 			var scoreBlumen = 0;
 			var apfelGet = false;
 			var pilzGet = false;
 			var blumenGet = false;
 			var collidableMeshList = [];
+			var morphs = [];
 
 
 			init();
@@ -51,6 +52,16 @@
 				scene.add( line );
 
 
+			// Tabaluga-Quest
+				var tabaGeometry = new THREE.BoxGeometry(50,1,50);
+				var tabaMaterial = new THREE.MeshBasicMaterial( { color: 0x0000ff, side: THREE.DoubleSide } );
+				tabaluga = new THREE.Mesh( tabaGeometry, tabaMaterial );
+				scene.add( tabaluga );
+				tabaluga.position.set(1000,0,200);
+
+			
+
+				
 			// Cube
 				var cubeSize = 50;
 				var geometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
@@ -118,6 +129,20 @@
 				wall2.position.set(-150, 50, 0);
 				wall2.rotation.y = 3.14159 / 2;
 				scene.add(wall2);	
+
+
+			// Tree - Blender-import
+				var tree = null;
+				
+				var loader = new THREE.JSONLoader();
+				loader.load('http://caro.x15.eu/baumbart.json', function(geometry) {
+				    tree = new THREE.Mesh(geometry);
+				    tree.scale.set( 20, 20, 20 );
+				    tree.position.set( 150, 100, 20);
+				    tree.translation = geometry.center(geometry);
+				    collidableMeshList.push(tree);
+				    scene.add(tree);
+				});	
 			}
 
 			function onWindowResize() {
@@ -142,3 +167,16 @@
 				renderer.render( scene, camera );
 
 			}		
+
+/* Chrome
+
+Close all running Chrome instances first. The important word here is 'all'.
+
+On Windows, you may check for Chrome instances using the Windows Task Manager. Alternatively, if you see a Chrome
+ icon in the system tray, then you may open its context menu and click 'Exit'. This should close all Chrome instances.
+
+Then start the Chrome executable with a command line flag:
+
+chrome --allow-file-access-from-files
+On Windows, probably the easiest is probably to create a special shortcut icon which has added the flag 
+given above (right-click on shortcut -> properties -> target) */
