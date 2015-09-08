@@ -1,33 +1,36 @@
 			var camera, scene, renderer;
 			var cube, itemApfel, itemPilz, itemBlume, tabaluga;
+			var questTrue = false;
 			var scoreBlumen = 0;
 			var apfelGet = false;
 			var pilzGet = false;
 			var blumenGet = false;
 			var collidableMeshList = [];
-			var morphs = [];
+
+			var backgroundColor = 0xbfd1e5;
 
 
 			init();
+			trees();
 			animate();
 
 
 			function init() {
 			// Scene
 				scene = new THREE.Scene();
-				scene.fog = new THREE.FogExp2( 0xbfd1e5, 0.0025 );
+				scene.fog = new THREE.FogExp2( backgroundColor, 0.0025 );
 
 
 
 			// Camera
 				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
 				//camera.position.set(-1500, 100, 2000);
-				camera.position.set(0, 100, 200);
+				camera.position.set(0, 75, 100);
 
 
 			// Renderer
 				renderer = new THREE.WebGLRenderer();
-				renderer.setClearColor( 0xbfd1e5 );
+				renderer.setClearColor( backgroundColor );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				document.body.appendChild( renderer.domElement );
@@ -59,7 +62,7 @@
 				var tabaMaterial = new THREE.MeshBasicMaterial( { color: 0x0000ff, side: THREE.DoubleSide } );
 				tabaluga = new THREE.Mesh( tabaGeometry, tabaMaterial );
 				scene.add( tabaluga );
-				tabaluga.position.set(1000,0,200);
+				tabaluga.position.set(0,0,-200);
 
 			
 
@@ -74,10 +77,10 @@
 				//cube.position.set(-1500, cubeSize/2, 1760);	
 				cube.position.set(0, cubeSize/2, 0);
 
+
 			// Light
 				var light = new THREE.AmbientLight( 0x808080 );
 				scene.add( light );
-
 
 
 
@@ -136,17 +139,7 @@
 
 
 			// Tree - Blender-import
-				var tree = null;
 				
-				var loader = new THREE.JSONLoader();
-				loader.load('http://caro.x15.eu/baumbart.json', function(geometry) {
-				    tree = new THREE.Mesh(geometry);
-				    tree.scale.set( 20, 20, 20 );
-				    tree.position.set( 150, 100, 20);
-				    tree.translation = geometry.center(geometry);
-				    collidableMeshList.push(tree);
-				    scene.add(tree);
-				});	
 			}
 
 			function onWindowResize() {
@@ -172,6 +165,50 @@
 
 			}		
 
+
+			function trees() 
+			{
+				var tree = null;
+				var loader = new THREE.JSONLoader();
+				// init loading
+				loader.load( 'http://caro.x15.eu/baum.json', function( geometry ) 
+				{
+					
+					//var material = new THREE.MeshLambertMaterial(
+					//{
+					//	map: THREE.ImageUtils.loadTexture('http://caro.x15.eu/4.jpg'),
+					//	colorAmbient: [0.480000026226044, 0.480000026226044, 0.480000026226044],
+					//    colorDiffuse: [0.480000026226044, 0.480000026226044, 0.480000026226044],
+					//    colorSpecular: [0.8999999761581421, 0.8999999761581421, 0.8999999761581421]
+					
+						for ( var i = 0; i < 400; i ++ ) 
+						{
+
+							// random placement in a grid
+							var x = Math.random() * 4000 - 2000;
+							var z = Math.random() * 4000 - 2000;
+
+							if ( Math.abs( x ) < 200 && Math.abs( z ) < 100 ) continue;
+
+							tree = new THREE.Mesh( geometry );
+
+							var s = THREE.Math.randFloat( 10, 20 );
+							tree.scale.set( s, s, s );
+
+							tree.position.set( x, 0, z );
+							tree.rotation.y = THREE.Math.randFloat( -0.25, 0.25 );
+
+							tree.matrixAutoUpdate = false;
+							tree.updateMatrix();
+
+							scene.add( tree );
+
+							collidableMeshList.push( tree );
+
+						}
+					//});
+				});
+			}
 /* Chrome
 
 Close all running Chrome instances first. The important word here is 'all'.

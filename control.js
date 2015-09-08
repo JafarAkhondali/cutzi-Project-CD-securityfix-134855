@@ -1,6 +1,6 @@
 			// Funktion zur Steuerung
 			function keyDownHandler(event) {
-				var step = 5;
+				var step = 10;
 				var up = 0;
 				vertexIndex = collisionDetection();
 			// key left  --  bei vertexIndex * nicht weitergehen
@@ -65,6 +65,7 @@
 				}
 				checkItem();
 				checkQuest();
+
 				// console.log('x' + cube.position.x);
 				// console.log('y' + cube.position.y);
 				// console.log('z' + cube.position.z);
@@ -106,4 +107,3 @@
 			function appendText(txt){   
 				document.getElementById('message').innerHTML += txt;   
 			}
-
