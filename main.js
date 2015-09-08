@@ -15,6 +15,8 @@
 			function init() {
 			// Scene
 				scene = new THREE.Scene();
+				scene.fog = new THREE.FogExp2( 0xbfd1e5, 0.0025 );
+
 
 
 			// Camera
@@ -75,6 +77,8 @@
 			// Light
 				var light = new THREE.AmbientLight( 0x808080 );
 				scene.add( light );
+
+
 
 
 			// item Apfel
