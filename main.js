@@ -42,7 +42,7 @@
 
 
 			// Grid
-				var size = 2000, step = 10;
+				/*var size = 2000, step = 10;
 				var geometry = new THREE.Geometry();
 				var material = new THREE.LineBasicMaterial( { color: 0x303030 } );
 				for ( var i = - size; i <= size; i += step ) {
@@ -53,9 +53,35 @@
 					geometry.vertices.push( new THREE.Vector3( i, - 0.04, - size ) );
 					geometry.vertices.push( new THREE.Vector3( i, - 0.04,   size ) );
 				}
-				var line = new THREE.Line( geometry, material, THREE.LinePieces );
-				scene.add( line );
-
+				
+				var line = new THREE.Line( geometry, material, THREE.LinePieces );			
+				
+				scene.add( line );*/
+			
+			// Plane
+				var planeTex = THREE.ImageUtils.loadTexture("grass.jpg");
+				planeTex.wrapS = planeTex.wrapT = THREE.RepeatWrapping;
+				//planTex.repeat.set( 10, 10 );
+			
+				var planeGeo = new THREE.PlaneBufferGeometry(2000, 2000, 32, 32);
+				var planeMat = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide});
+				//var planeMat = new THREE.MeshBasicMaterial( { map: planeTex } );
+				
+				//new begin
+				var vertices = planeGeo.attributes.position.array;
+				for( var i = -1; i < vertices.length; i += 3) {
+					vertices[i] = Math.random() * (50 - 1) + 1;
+					console.log(vertices[i]);
+					console.log(vertices.length);
+				}
+				planeGeo.computeVertexNormals();
+				//new end
+			
+				var plane = new THREE.Mesh( planeGeo, planeMat );
+				plane.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2) );
+				//plane.position.y = -80;
+				scene.add( plane );
+			
 
 			// Tabaluga-Quest
 				var tabaGeometry = new THREE.BoxGeometry(50,1,50);
