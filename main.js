@@ -59,18 +59,20 @@
 				scene.add( line );*/
 			
 			// Plane
-				var planeTex = THREE.ImageUtils.loadTexture("grass.jpg");
-				planeTex.wrapS = planeTex.wrapT = THREE.RepeatWrapping;
+				//var planeTex = THREE.ImageUtils.loadTexture("grass.jpg");
+				//planeTex.wrapS = planeTex.wrapT = THREE.RepeatWrapping;
 				//planTex.repeat.set( 10, 10 );
 			
-				var planeGeo = new THREE.PlaneBufferGeometry(2000, 2000, 32, 32);
-				var planeMat = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide});
-				//var planeMat = new THREE.MeshBasicMaterial( { map: planeTex } );
+			
+				var planeGeo = new THREE.PlaneBufferGeometry(4000, 4000, 100, 100);
+				var planTex  = new THREE.ImageUtils.loadTexture("grass.jpg");
+				var planeMat = new THREE.MeshPhongMaterial( {color: 0x198c19, side: THREE.DoubleSide}); 
+				//var planeMat = new THREE.MeshPhongMaterial({ map:planeTex, side:THREE.DoubleSide });
 				
 				//new begin
 				var vertices = planeGeo.attributes.position.array;
 				for( var i = -1; i < vertices.length; i += 3) {
-					vertices[i] = Math.random() * (50 - 1) + 1;
+					vertices[i] = Math.random() * (10 - 1) + 1;
 					console.log(vertices[i]);
 					console.log(vertices.length);
 				}
