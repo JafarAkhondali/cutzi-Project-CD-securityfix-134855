@@ -6,8 +6,12 @@
 			var pilzGet = false;
 			var blumenGet = false;
 			var collidableMeshList = [];
-
+			var itemList = [];
+			var clock = new THREE.Clock();
 			var backgroundColor = 0xbfd1e5;
+			var keyboard = new THREEx.KeyboardState();
+
+
 
 
 			init();
@@ -23,9 +27,14 @@
 
 
 			// Camera
-				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
+				var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
+				var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 50, FAR = 20000;
+				camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
+				scene.add(camera);
+				camera.position.set(0,150,400);
+				camera.lookAt(scene.position);
 				//camera.position.set(-1500, 100, 2000);
-				camera.position.set(0, 75, 100);
+	
 
 
 			// Renderer
@@ -38,32 +47,10 @@
 
 			// Events
 				window.addEventListener( 'resize', onWindowResize, false );
-				window.addEventListener( 'keydown', keyDownHandler, false);
+				//window.addEventListener( 'keydown', keyDownHandler, false);
 
 
-			// Grid
-				/*var size = 2000, step = 10;
-				var geometry = new THREE.Geometry();
-				var material = new THREE.LineBasicMaterial( { color: 0x303030 } );
-				for ( var i = - size; i <= size; i += step ) {
-
-					geometry.vertices.push( new THREE.Vector3( - size, - 0.04, i ) );
-					geometry.vertices.push( new THREE.Vector3(   size, - 0.04, i ) );
-
-					geometry.vertices.push( new THREE.Vector3( i, - 0.04, - size ) );
-					geometry.vertices.push( new THREE.Vector3( i, - 0.04,   size ) );
-				}
-				
-				var line = new THREE.Line( geometry, material, THREE.LinePieces );			
-				
-				scene.add( line );*/
-			
-			// Plane
-				//var planeTex = THREE.ImageUtils.loadTexture("grass.jpg");
-				//planeTex.wrapS = planeTex.wrapT = THREE.RepeatWrapping;
-				//planTex.repeat.set( 10, 10 );
-			
-			
+			// Floor
 				var planeGeo = new THREE.PlaneBufferGeometry(4000, 4000, 100, 100);
 				var planTex  = new THREE.ImageUtils.loadTexture("grass.jpg");
 				var planeMat = new THREE.MeshPhongMaterial( {color: 0x198c19, side: THREE.DoubleSide}); 
@@ -95,20 +82,26 @@
 			
 
 				
-			// Cube
-				var cubeSize = 50;
+			// User
+				var cubeSize = 35;
 				var geometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
-				var material = new THREE.MeshPhongMaterial( { color:  'rgb(255,0,0)', emissive: 0x200000, wireframe:true } );
+				var material = new THREE.MeshLambertMaterial( { color:  'rgb(255,0,0)', emissive: 0x200000, wireframe:false } );
 
-				cube = new THREE.Mesh( geometry, material);
-				scene.add( cube );
-				//cube.position.set(-1500, cubeSize/2, 1760);	
-				cube.position.set(0, cubeSize/2, 0);
+				user = new THREE.Mesh( geometry, material);
+
+				scene.add( user );
+				//user.position.set(-1500, cubeSize/2, 1760);	
+				user.position.set(-1280, cubeSize/2, -1400);
 
 
 			// Light
-				var light = new THREE.AmbientLight( 0x808080 );
-				scene.add( light );
+				//var lightA = new THREE.AmbientLight( 0x808080 );
+				//scene.add( lightA );
+
+				var lightH = new THREE.HemisphereLight( 0xFFEF32, 0x674C1E, 0.21 );
+				scene.add( lightH );
+
+
 
 
 
@@ -120,16 +113,30 @@
 				itemApfel = new THREE.Mesh( geometry2, material2);
 				scene.add( itemApfel );
 				itemApfel.position.set(1120, apfelSize/2, 1800);
+				itemList.push(itemApfel);
 
 
 			// item Pilz
-				var pilzSize = 15; 
+				/*var pilzSize = 15; 
 				var geometry3 = new THREE.BoxGeometry( pilzSize, pilzSize, pilzSize );
 				//var material = new THREE.MeshLambertMaterial( { color: 'rgb(255,0,0)', emissive: 0x200000 } );
 				var material3 = new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe:true } );
 				itemPilz = new THREE.Mesh( geometry3, material3);
 				scene.add( itemPilz );
 				itemPilz.position.set(-1320, pilzSize/2, -1380);
+				itemList.push(itemPilz);*/
+				itemPilz = null;
+				var loader = new THREE.JSONLoader();
+				// init loading
+				loader.load( 'http://caro.x15.eu/pilz.json', function( geometry ) 
+				{
+					var material = new THREE.MeshLambertMaterial( {color: 0x846E9C} );
+					itemPilz = new THREE.Mesh( geometry, material );
+					itemPilz.scale.set( 3, 3, 3 );
+					itemPilz.position.set( -1320, 10, -1380 );
+					scene.add( itemPilz );
+					itemList.push( itemPilz );
+				});
 
 
 			// item Blume
@@ -140,6 +147,7 @@
 				itemBlume = new THREE.Mesh( geometry4, material4);
 				scene.add( itemBlume );
 				itemBlume.position.set(-980, blumeSize/2, 1650);
+				itemList.push(itemBlume);
 
 
 			// Wall test				
@@ -164,9 +172,6 @@
 				wall2.position.set(-150, 50, 0);
 				wall2.rotation.y = 3.14159 / 2;
 				scene.add(wall2);	
-
-
-			// Tree - Blender-import
 				
 			}
 
@@ -184,12 +189,15 @@
 				requestAnimationFrame( animate )
 
 			// rotation item
-				itemApfel.rotation.y += 0.01;
-				itemPilz.rotation.y += 0.01;
-				itemBlume.rotation.y += 0.01;
+				itemApfel.rotateY(0.05);
+				itemPilz.rotateY(0.05);
+				itemPilz.rotateZ(0.005);
+				itemBlume.rotateY(0.05);
 
 			// render-update
 				renderer.render( scene, camera );
+
+				update();
 
 			}		
 
@@ -202,13 +210,7 @@
 				loader.load( 'http://caro.x15.eu/baum.json', function( geometry ) 
 				{
 					
-					//var material = new THREE.MeshLambertMaterial(
-					//{
-					//	map: THREE.ImageUtils.loadTexture('http://caro.x15.eu/4.jpg'),
-					//	colorAmbient: [0.480000026226044, 0.480000026226044, 0.480000026226044],
-					//    colorDiffuse: [0.480000026226044, 0.480000026226044, 0.480000026226044],
-					//    colorSpecular: [0.8999999761581421, 0.8999999761581421, 0.8999999761581421]
-					
+					var material = new THREE.MeshLambertMaterial( {color: 0x1f5c35} );
 						for ( var i = 0; i < 400; i ++ ) 
 						{
 
@@ -218,7 +220,7 @@
 
 							if ( Math.abs( x ) < 200 && Math.abs( z ) < 100 ) continue;
 
-							tree = new THREE.Mesh( geometry );
+							tree = new THREE.Mesh( geometry, material );
 
 							var s = THREE.Math.randFloat( 10, 20 );
 							tree.scale.set( s, s, s );
@@ -234,7 +236,7 @@
 							collidableMeshList.push( tree );
 
 						}
-					//});
+					
 				});
 			}
 /* Chrome

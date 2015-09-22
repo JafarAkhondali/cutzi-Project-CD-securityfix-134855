@@ -1,68 +1,45 @@
 			// Funktion zur Steuerung
-			function keyDownHandler(event) {
-				var step = 10;
-				var up = 0;
+			function update() {
+				var delta = clock.getDelta(); // seconds.
+				var step = 200 * delta; // 200 pixels per second
+				var rotateAngle = Math.PI / 2 * delta;   // pi/2 radians (90 degrees) per second
+				
 				vertexIndex = collisionDetection();
-			// key left  --  bei vertexIndex * nicht weitergehen
-				if ( event.keyCode === 37 && vertexIndex != 4 && vertexIndex != 5 && vertexIndex != 6 && vertexIndex != 7) {
-					cube.translateX( -step );
-					cube.translateY( up );
-					// camera moves
-					camera.position.x += -step;
-					camera.position.y += 0;
-				}
-			// key up  --  bei vertexIndex * nicht weitergehen
-				else if( event.keyCode === 38 && vertexIndex != 4 && vertexIndex != 6 && vertexIndex != 1 && vertexIndex != 3) {
-					cube.translateZ( -step );
-					cube.translateY( up );
-					camera.position.y += 0;
-					camera.position.z += -step;
-				} 
-			// key right  --  bei vertexIndex * nicht weitergehen
-				else if ( event.keyCode === 39 && vertexIndex != 1 && vertexIndex != 3 && vertexIndex != 0 && vertexIndex != 2) {	
-				//else if ( event.keyCode === 39 && vertexIndex != 0 ) {	
-					cube.translateX( step );
-					cube.translateY( up );
-					camera.position.x += step;
-					camera.position.y += 0;
-				}
-			// key down  --  bei vertexIndex * nicht weitergehen
-				else if ( event.keyCode === 40  && vertexIndex != 0 && vertexIndex != 2 && vertexIndex != 5 && vertexIndex != 7) {
-					cube.translateZ( step );
-					cube.translateY( up );
-					camera.position.y += 0;
-					camera.position.z += step;
-				}
+				// local transformations
 
-				// camera position external
-			// up with w
-				else if ( event.keyCode === 87 ) {
-					camera.position.y += step;
+				// move forwards/backwards/left/right
+				if ( keyboard.pressed('up') && vertexIndex != 4 && vertexIndex != 6 && vertexIndex != 1 && vertexIndex != 3 )
+					user.translateZ( -step );
+					// up();
+				if ( keyboard.pressed('down') && vertexIndex != 0 && vertexIndex != 2 && vertexIndex != 5 && vertexIndex != 7 )
+					user.translateZ(  step );
+					// up();
+				// rotate left/right/up/down
+				var rotation_matrix = new THREE.Matrix4().identity();
+				if ( keyboard.pressed('left')  && vertexIndex != 4 && vertexIndex != 5 && vertexIndex != 6 && vertexIndex != 7 )
+					user.rotateOnAxis( new THREE.Vector3(0,1,0), rotateAngle);
+				if ( keyboard.pressed('right') && vertexIndex != 1 && vertexIndex != 3 && vertexIndex != 0 && vertexIndex != 2 )
+					user.rotateOnAxis( new THREE.Vector3(0,1,0), -rotateAngle);
+				if ( keyboard.pressed("R") )
+					user.rotateOnAxis( new THREE.Vector3(1,0,0), rotateAngle);
+				if ( keyboard.pressed("F") )
+					user.rotateOnAxis( new THREE.Vector3(1,0,0), -rotateAngle);
+	
+				if ( keyboard.pressed('ctrl') )
+				{
+					alert(user.position.x + ", " + user.position.y + ", " + user.position.z );
 				}
-			// down with s
-				else if ( event.keyCode === 83 ) {
-					camera.position.y += -step;
-				}
-			// right with d
-				else if ( event.keyCode === 68 ) {
-					camera.position.x += step;
-				}
-			// left with a
-				else if ( event.keyCode === 65 ) {
-					camera.position.x += -step;
-				}
-			// angle down with y
-				else if ( event.keyCode === 89 ) {
-					camera.rotation.x += 50;
-				}
-			// angle up q
-				else if ( event.keyCode === 81 ) {
-					camera.rotation.x += -50;
-				}
-			// 
-				else if ( event.keyCode === 71 ) {
-					alert(cube.position.x + ", " + cube.position.y + ", " + cube.position.z );
-				}
+				
+	
+				var relativeCameraOffset = new THREE.Vector3(0,50,200);
+
+				var cameraOffset = relativeCameraOffset.applyMatrix4( user.matrixWorld );
+
+				camera.position.x = cameraOffset.x;
+				camera.position.y = cameraOffset.y;
+				camera.position.z = cameraOffset.z;
+				camera.lookAt( user.position );
+
 				checkItem();
 				checkQuest();
 
@@ -74,18 +51,18 @@
 		// Kollisionserkennung; erkennt Wände, kann aber z.B. nicht nach rechts laufen, wenn vertexIndex = 1, geht aber nach rechts (an wand entlang)
 			function collisionDetection(){
 				// Cube Position in originPoint kopiert
-				var originPoint = cube.position.clone();
+				var originPoint = user.position.clone();
 				clearText();
 
 				// for-schleife für alle Eckpunkte, die Kollisionen hervorrufen können
-				for (var vertexIndex = 0; vertexIndex < cube.geometry.vertices.length; vertexIndex++)
+				for (var vertexIndex = 0; vertexIndex < user.geometry.vertices.length; vertexIndex++)
 				{
 					// aktueller Punkt, (0 bis 7) --> Array der Eckpunkte, in Variable kopieren
-					var localVertex = cube.geometry.vertices[vertexIndex].clone();
+					var localVertex = user.geometry.vertices[vertexIndex].clone();
 					// 
-					var globalVertex = localVertex.applyMatrix4( cube.matrix );
+					var globalVertex = localVertex.applyMatrix4( user.matrix );
 					// Richtungsvektor, dessen Position
-					var directionVector = globalVertex.sub( cube.position );
+					var directionVector = globalVertex.sub( user.position );
 					
 					// origin Point und normalisierter Richtungsvektor des Cubes
 					var ray = new THREE.Raycaster( originPoint, directionVector.clone().normalize() );
@@ -107,3 +84,39 @@
 			function appendText(txt){   
 				document.getElementById('message').innerHTML += txt;   
 			}
+
+			function cameraUpdate(){
+				var relativeCameraOffset = new THREE.Vector3(0,50,200);
+
+				var cameraOffset = relativeCameraOffset.applyMatrix4( user.matrixWorld );
+
+				camera.position.x = cameraOffset.x;
+				camera.position.y = cameraOffset.y;
+				camera.position.z = cameraOffset.z;
+				camera.lookAt( user.position );
+			}
+
+			/*function up(){
+				var raycaster = new THREE.Raycaster();
+				raycaster.set(user.position, THREE.Vector3(0, -1, 0));
+				var distance = 40;
+
+				var velocity = new THREE.Vector3();
+
+				var intersects = raycaster.intersectObject( plane ); //use intersectObjects() to check the intersection on multiple
+
+				//new position is higher so you need to move you object upwards
+				if (distance > intersects[0].distance) {        
+				    user.position.y += (distance - intersects[0].distance) - 1; // the -1 is a fix for a shake effect I had
+				}
+
+				//gravity and prevent falling through floor
+				if (distance >= intersects[0].distance && velocity.y <= 0) {
+				    velocity.y = 0;
+				} else if (distance <= intersects[0].distance && velocity.y === 0) {
+				    velocity.y -= delta ;
+				}
+
+				user.translateY(velocity.y);
+			}*/
+

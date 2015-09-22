@@ -1,7 +1,7 @@
 //
 
 function checkQuest() {
-	if ( cube.position.x == tabaluga.position.x && cube.position.z == tabaluga.position.z ) {
+	if ( user.position.x == tabaluga.position.x && user.position.z == tabaluga.position.z ) {
 		alert( "Los gehts" );
 		questTrue = true;
 	}
