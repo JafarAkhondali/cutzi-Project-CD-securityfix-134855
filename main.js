@@ -1,5 +1,5 @@
 			var camera, scene, renderer;
-			var cube, itemApfel, itemPilz, itemBlume, tabaluga;
+			var cube, itemApfel, itemPilz, itemBlume, tabaluga, field, way;
 			var questTrue = false;
 			var scoreBlumen = 0;
 			var apfelGet = false;
@@ -10,12 +10,15 @@
 			var clock = new THREE.Clock();
 			var backgroundColor = 0xbfd1e5;
 			var keyboard = new THREEx.KeyboardState();
-
+			var loader = new THREE.JSONLoader();
 
 
 
 			init();
-			trees();
+			initTrees();
+			initBlumen();
+			initItems();
+			initQuest();
 			animate();
 
 
@@ -32,9 +35,7 @@
 				camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
 				scene.add(camera);
 				camera.position.set(0,150,400);
-				camera.lookAt(scene.position);
-				//camera.position.set(-1500, 100, 2000);
-	
+				camera.lookAt(scene.position);	
 
 
 			// Renderer
@@ -60,8 +61,8 @@
 				var vertices = planeGeo.attributes.position.array;
 				for( var i = -1; i < vertices.length; i += 3) {
 					vertices[i] = Math.random() * (10 - 1) + 1;
-					console.log(vertices[i]);
-					console.log(vertices.length);
+					//console.log(vertices[i]);
+					//console.log(vertices.length);
 				}
 				planeGeo.computeVertexNormals();
 				//new end
@@ -72,12 +73,6 @@
 				scene.add( plane );
 			
 
-			// Tabaluga-Quest
-				var tabaGeometry = new THREE.BoxGeometry(50,1,50);
-				var tabaMaterial = new THREE.MeshBasicMaterial( { color: 0x0000ff, side: THREE.DoubleSide } );
-				tabaluga = new THREE.Mesh( tabaGeometry, tabaMaterial );
-				scene.add( tabaluga );
-				tabaluga.position.set(0,0,-200);
 
 			
 
@@ -88,10 +83,10 @@
 				var material = new THREE.MeshLambertMaterial( { color:  'rgb(255,0,0)', emissive: 0x200000, wireframe:false } );
 
 				user = new THREE.Mesh( geometry, material);
-
+				user.position.set(1000, cubeSize/2, -1000)
 				scene.add( user );
 				//user.position.set(-1500, cubeSize/2, 1760);	
-				user.position.set(-1280, cubeSize/2, -1400);
+				//user.position.set(-1280, cubeSize/2, -1400);
 
 
 			// Light
@@ -100,54 +95,6 @@
 
 				var lightH = new THREE.HemisphereLight( 0xFFEF32, 0x674C1E, 0.21 );
 				scene.add( lightH );
-
-
-
-
-
-			// item Apfel
-				var apfelSize = 30;
-				var geometry2 = new THREE.BoxGeometry( apfelSize, apfelSize, apfelSize );
-				//var material = new THREE.MeshLambertMaterial( { color: 'rgb(255,0,0)', emissive: 0x200000 } );
-				var material2 = new THREE.MeshBasicMaterial( { color: 0x0000ff, wireframe:true } );
-				itemApfel = new THREE.Mesh( geometry2, material2);
-				scene.add( itemApfel );
-				itemApfel.position.set(1120, apfelSize/2, 1800);
-				itemList.push(itemApfel);
-
-
-			// item Pilz
-				/*var pilzSize = 15; 
-				var geometry3 = new THREE.BoxGeometry( pilzSize, pilzSize, pilzSize );
-				//var material = new THREE.MeshLambertMaterial( { color: 'rgb(255,0,0)', emissive: 0x200000 } );
-				var material3 = new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe:true } );
-				itemPilz = new THREE.Mesh( geometry3, material3);
-				scene.add( itemPilz );
-				itemPilz.position.set(-1320, pilzSize/2, -1380);
-				itemList.push(itemPilz);*/
-				itemPilz = null;
-				var loader = new THREE.JSONLoader();
-				// init loading
-				loader.load( 'http://caro.x15.eu/pilz.json', function( geometry ) 
-				{
-					var material = new THREE.MeshLambertMaterial( {color: 0x846E9C} );
-					itemPilz = new THREE.Mesh( geometry, material );
-					itemPilz.scale.set( 3, 3, 3 );
-					itemPilz.position.set( -1320, 10, -1380 );
-					scene.add( itemPilz );
-					itemList.push( itemPilz );
-				});
-
-
-			// item Blume
-				var blumeSize = 25;
-				var geometry4 = new THREE.BoxGeometry( blumeSize, blumeSize, blumeSize );
-				//var material = new THREE.MeshLambertMaterial( { color: 'rgb(255,0,0)', emissive: 0x200000 } );
-				var material4 = new THREE.MeshBasicMaterial( { color: 0xffff00, wireframe:true } );
-				itemBlume = new THREE.Mesh( geometry4, material4);
-				scene.add( itemBlume );
-				itemBlume.position.set(-980, blumeSize/2, 1650);
-				itemList.push(itemBlume);
 
 
 			// Wall test				
@@ -190,8 +137,8 @@
 
 			// rotation item
 				itemApfel.rotateY(0.05);
-				itemPilz.rotateY(0.05);
-				itemPilz.rotateZ(0.005);
+				//itemPilz.rotateY(0.05);
+				//itemPilz.rotateZ(0.005);
 				itemBlume.rotateY(0.05);
 
 			// render-update
@@ -202,10 +149,9 @@
 			}		
 
 
-			function trees() 
+			function initTrees() 
 			{
 				var tree = null;
-				var loader = new THREE.JSONLoader();
 				// init loading
 				loader.load( 'http://caro.x15.eu/baum.json', function( geometry ) 
 				{
@@ -238,6 +184,103 @@
 						}
 					
 				});
+			}
+
+			// Blumen für die Umgebung
+			function initBlumen() 
+			{
+				var blumen = null;
+				
+				// init loading
+				loader.load( 'http://caro.x15.eu/blume.json', function( geometry ) 
+				{
+					
+					var material = new THREE.MeshLambertMaterial( {color: 0xE065D8} );
+						for ( var i = 0; i < 400; i ++ ) 
+						{
+
+							// random placement in a grid
+							var x = Math.random() * 4000 - 2000;
+							var z = Math.random() * 4000 - 2000;
+
+							if ( Math.abs( x ) < 200 && Math.abs( z ) < 100 ) continue;
+
+							blumen = new THREE.Mesh( geometry, material );
+
+							var s = THREE.Math.randFloat( 1.5, 2.5 );
+							blumen.scale.set( s, s, s );
+
+							blumen.position.set( x, 5, z );
+							blumen.rotation.y = THREE.Math.randFloat( -0.25, 0.25 );
+
+							blumen.matrixAutoUpdate = false;
+							blumen.updateMatrix();
+
+							scene.add( blumen );
+
+						}
+					
+				});
+			}
+
+			// Items
+			function initItems()
+			{
+				// item Apfel
+				var apfelSize = 30;
+				var geometry2 = new THREE.BoxGeometry( apfelSize, apfelSize, apfelSize );
+				//var material = new THREE.MeshLambertMaterial( { color: 'rgb(255,0,0)', emissive: 0x200000 } );
+				var material2 = new THREE.MeshBasicMaterial( { color: 0x0000ff, wireframe:true } );
+				itemApfel = new THREE.Mesh( geometry2, material2);
+				scene.add( itemApfel );
+				itemApfel.position.set(1120, apfelSize/2, 1800);
+				itemList.push(itemApfel);
+
+				itemPilz = null;
+				// init loading
+				loader.load( 'http://caro.x15.eu/pilz.json', function( geometry ) 
+				{
+					var material = new THREE.MeshLambertMaterial( {color: 0x846E9C} );
+					itemPilz = new THREE.Mesh( geometry, material );
+					itemPilz.scale.set( 3, 3, 3 );
+					itemPilz.position.set( -1320, 10, -1380 );
+					scene.add( itemPilz );
+					itemList.push( itemPilz );
+				});
+
+
+			// item Blume
+				var blumeSize = 25;
+				var geometry4 = new THREE.BoxGeometry( blumeSize, blumeSize, blumeSize );
+				//var material = new THREE.MeshLambertMaterial( { color: 'rgb(255,0,0)', emissive: 0x200000 } );
+				var material4 = new THREE.MeshBasicMaterial( { color: 0xffff00, wireframe:true } );
+				itemBlume = new THREE.Mesh( geometry4, material4);
+				scene.add( itemBlume );
+				itemBlume.position.set(-980, blumeSize/2, 1650);
+				itemList.push(itemBlume);
+			}
+
+			// TabalugaQuest
+			function initQuest()
+			{
+				// Tabaluga-Quest
+				var tabaGeometry = new THREE.BoxGeometry(50,1,50);
+				var tabaMaterial = new THREE.MeshBasicMaterial( { color: 0x0000ff, side: THREE.DoubleSide } );
+				tabaluga = new THREE.Mesh( tabaGeometry, tabaMaterial );
+				scene.add( tabaluga );
+				tabaluga.position.set(1000,10,-1200);
+				for (var i=0; i <10; i++)
+				{
+					for (var j=0; j < 5; j++)
+					{
+						var fieldGeo = new THREE.BoxGeometry(50,1,50);
+						var fieldMat = new THREE.MeshBasicMaterial( { color: 0x00ff00, side: THREE.DoubleSide, wireframe: true } );
+						field = new THREE.Mesh ( fieldGeo, fieldMat );
+						scene.add( field );
+						field.position.set(tabaluga.position.x+50*i, tabaluga.position.y, tabaluga.position.z+50*j)
+					}
+				}
+				
 			}
 /* Chrome
 

@@ -2,28 +2,26 @@
 			function update() {
 				var delta = clock.getDelta(); // seconds.
 				var step = 200 * delta; // 200 pixels per second
+				var fixStep = 5;
 				var rotateAngle = Math.PI / 2 * delta;   // pi/2 radians (90 degrees) per second
 				
 				vertexIndex = collisionDetection();
 				// local transformations
-
-				// move forwards/backwards/left/right
+				//keyDownHandler(event);
+			// move forwards/backwards/left/right
 				if ( keyboard.pressed('up') && vertexIndex != 4 && vertexIndex != 6 && vertexIndex != 1 && vertexIndex != 3 )
 					user.translateZ( -step );
-					// up();
 				if ( keyboard.pressed('down') && vertexIndex != 0 && vertexIndex != 2 && vertexIndex != 5 && vertexIndex != 7 )
 					user.translateZ(  step );
-					// up();
+
+
 				// rotate left/right/up/down
 				var rotation_matrix = new THREE.Matrix4().identity();
 				if ( keyboard.pressed('left')  && vertexIndex != 4 && vertexIndex != 5 && vertexIndex != 6 && vertexIndex != 7 )
 					user.rotateOnAxis( new THREE.Vector3(0,1,0), rotateAngle);
 				if ( keyboard.pressed('right') && vertexIndex != 1 && vertexIndex != 3 && vertexIndex != 0 && vertexIndex != 2 )
 					user.rotateOnAxis( new THREE.Vector3(0,1,0), -rotateAngle);
-				if ( keyboard.pressed("R") )
-					user.rotateOnAxis( new THREE.Vector3(1,0,0), rotateAngle);
-				if ( keyboard.pressed("F") )
-					user.rotateOnAxis( new THREE.Vector3(1,0,0), -rotateAngle);
+
 	
 				if ( keyboard.pressed('ctrl') )
 				{
@@ -96,7 +94,7 @@
 				camera.lookAt( user.position );
 			}
 
-			/*function up(){
+			function up(){
 				var raycaster = new THREE.Raycaster();
 				raycaster.set(user.position, THREE.Vector3(0, -1, 0));
 				var distance = 40;
@@ -111,12 +109,9 @@
 				}
 
 				//gravity and prevent falling through floor
-				if (distance >= intersects[0].distance && velocity.y <= 0) {
-				    velocity.y = 0;
-				} else if (distance <= intersects[0].distance && velocity.y === 0) {
-				    velocity.y -= delta ;
-				}
-
+				
 				user.translateY(velocity.y);
-			}*/
+			}
+
+
 

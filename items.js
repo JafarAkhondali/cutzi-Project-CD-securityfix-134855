@@ -1,9 +1,13 @@
 // Funktion um Items aufzusammeln
 	function checkItem() {
 		// Apfel aufsammeln
+		var area = 10;
 		var vertexIndex = itemDetection();
 		if ( apfelGet == false ) {
-			if ( user.position.x == itemApfel.position.x && user.position.z == itemApfel.position.z ) {
+			var itemApfelX = itemApfel.position.x;
+			var itemApfelZ = itemApfel.position.z;
+			if ( user.position.x <= (itemApfelX+area) && user.position.x >= (itemApfelX-area) 
+				&& user.position.z <= (itemApfelZ+area) && user.position.z >= (itemApfelZ-area) ){
 				alert( "Apfel aufgesammelt" );
 				scene.remove( itemApfel );
 				apfelGet = true;
@@ -11,15 +15,21 @@
 		} 
 		// Pilz aufsammeln
 		if ( pilzGet == false ) {
-			if ( user.position.x == itemPilz.position.x && user.position.z == itemPilz.position.z ) {
+			var itemPilzX = itemPilz.position.x;
+			var itemPilzZ = itemPilz.position.z;
+			if (user.position.x <= (itemPilzX+area) && user.position.x >= (itemPilzX-area) 
+				&& user.position.z <= (itemPilzZ+area) && user.position.z >= (itemPilzZ-area) ) {
 				alert( "Pilz aufgesammelt" );
 				scene.remove( itemPilz );
 				pilzGet = true;
 			}
 		}
 		// Blumen aufsammeln
-		if ( blumenGet == false ) {	
-			if ( user.position.x == itemBlume.position.x && user.position.z == itemBlume.position.z ) {
+		if ( blumenGet == false ) {
+			var itemBlumeX = itemBlume.position.x;
+			var itemBlumeZ = itemBlume.position.z;	
+			if ( user.position.x <= (itemBlumeX+area) && user.position.x >= (itemBlumeX-area) 
+				&& user.position.z <= (itemBlumeZ+area) && user.position.z >= (itemBlumeZ-area) ) {
 				scoreBlumen += 10;
 				alert( "Blume aufgesammelt. Aktueller Score: " + scoreBlumen );
 				//scene.remove( itemBlume );			
