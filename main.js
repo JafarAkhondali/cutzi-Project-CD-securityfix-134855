@@ -1,16 +1,21 @@
 			var camera, scene, renderer;
-			var cube, itemApfel, itemPilz, itemBlume, tabaluga, field, way;
+			var cube, itemApfel, itemPilz, itemBlume, tabaluga, field;
+			var way, way2, way3, way4, way5, way6, way7, way8, way9, way10, way11, way12, way13, way14, way15 ;
 			var questTrue = false;
+			var questFinish = false;
 			var scoreBlumen = 0;
 			var apfelGet = false;
 			var pilzGet = false;
 			var blumenGet = false;
 			var collidableMeshList = [];
 			var itemList = [];
+			var blumen = [];
+			var dir = ["W", "D", "W", "D", "W", "W", "A", "W", "W", "D", "D", "W", "W", "D", "W"];
 			var clock = new THREE.Clock();
 			var backgroundColor = 0xbfd1e5;
 			var keyboard = new THREEx.KeyboardState();
 			var loader = new THREE.JSONLoader();
+			var collected = false;
 
 
 
@@ -48,7 +53,7 @@
 
 			// Events
 				window.addEventListener( 'resize', onWindowResize, false );
-				//window.addEventListener( 'keydown', keyDownHandler, false);
+				
 
 
 			// Floor
@@ -73,10 +78,6 @@
 				scene.add( plane );
 			
 
-
-			
-
-				
 			// User
 				var cubeSize = 35;
 				var geometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
@@ -84,6 +85,7 @@
 
 				user = new THREE.Mesh( geometry, material);
 				user.position.set(1000, cubeSize/2, -1000)
+				//user.position.set(0,cubeSize/2, 0);
 				scene.add( user );
 				//user.position.set(-1500, cubeSize/2, 1760);	
 				//user.position.set(-1280, cubeSize/2, -1400);
@@ -98,27 +100,30 @@
 
 
 			// Wall test				
-				var wallGeometry = new THREE.CubeGeometry( 100, 100, 20, 1, 1, 1 );
-				var wallMaterial = new THREE.MeshBasicMaterial( {color: 0x8888ff} );
-				var wireMaterial = new THREE.MeshBasicMaterial( { color: 0x000000, wireframe:true } );
+				var wallGeometry = new THREE.CubeGeometry( 4000, 100, 20, 1, 1, 1 );
+				var wallMaterial = new THREE.MeshBasicMaterial( {color: 0x722F2F} );
 				
+				//wall x-direction
 				var wall = new THREE.Mesh(wallGeometry, wallMaterial);
-				wall.position.set(100, 50, -100);
+				wall.position.set(0, 50, 2000);
 				scene.add(wall);
 				collidableMeshList.push(wall);
-				var wall = new THREE.Mesh(wallGeometry, wireMaterial);
-				wall.position.set(100, 50, -100);
+				var wall = new THREE.Mesh(wallGeometry, wallMaterial);
+				wall.position.set(0, 50, -2000);
 				scene.add(wall);
+				collidableMeshList.push(wall);
 				
+				//wall z-direction
 				var wall2 = new THREE.Mesh(wallGeometry, wallMaterial);
-				wall2.position.set(-150, 50, 0);
+				wall2.position.set(-2000, 50, 0);
 				wall2.rotation.y = 3.14159 / 2;
 				scene.add(wall2);
 				collidableMeshList.push(wall2);
-				var wall2 = new THREE.Mesh(wallGeometry, wireMaterial);
-				wall2.position.set(-150, 50, 0);
+				var wall2 = new THREE.Mesh(wallGeometry, wallMaterial);
+				wall2.position.set(2000, 50, 0);
 				wall2.rotation.y = 3.14159 / 2;
-				scene.add(wall2);	
+				scene.add(wall2);
+				collidableMeshList.push(wall2);	
 				
 			}
 
@@ -189,14 +194,14 @@
 			// Blumen für die Umgebung
 			function initBlumen() 
 			{
-				var blumen = null;
+				var blume = null;
 				
 				// init loading
 				loader.load( 'http://caro.x15.eu/blume.json', function( geometry ) 
 				{
 					
 					var material = new THREE.MeshLambertMaterial( {color: 0xE065D8} );
-						for ( var i = 0; i < 400; i ++ ) 
+						for ( var i = 0; i < 150; i ++ ) 
 						{
 
 							// random placement in a grid
@@ -205,19 +210,20 @@
 
 							if ( Math.abs( x ) < 200 && Math.abs( z ) < 100 ) continue;
 
-							blumen = new THREE.Mesh( geometry, material );
-
+							blume = new THREE.Mesh( geometry, material );
+							blume.name = "blume"+i;
 							var s = THREE.Math.randFloat( 1.5, 2.5 );
-							blumen.scale.set( s, s, s );
+							blume.scale.set( s, s, s );
 
-							blumen.position.set( x, 5, z );
-							blumen.rotation.y = THREE.Math.randFloat( -0.25, 0.25 );
+							blume.position.set( x, 5, z );
+							blume.rotation.y = THREE.Math.randFloat( -0.25, 0.25 );
 
-							blumen.matrixAutoUpdate = false;
-							blumen.updateMatrix();
+							blume.matrixAutoUpdate = false;
+							blume.updateMatrix();
 
-							scene.add( blumen );
+							scene.add( blume );
 
+							blumen.push( blume );
 						}
 					
 				});

@@ -8,7 +8,7 @@
 			var itemApfelZ = itemApfel.position.z;
 			if ( user.position.x <= (itemApfelX+area) && user.position.x >= (itemApfelX-area) 
 				&& user.position.z <= (itemApfelZ+area) && user.position.z >= (itemApfelZ-area) ){
-				alert( "Apfel aufgesammelt" );
+				console.log( "Apfel aufgesammelt" );
 				scene.remove( itemApfel );
 				apfelGet = true;
 			}
@@ -19,7 +19,7 @@
 			var itemPilzZ = itemPilz.position.z;
 			if (user.position.x <= (itemPilzX+area) && user.position.x >= (itemPilzX-area) 
 				&& user.position.z <= (itemPilzZ+area) && user.position.z >= (itemPilzZ-area) ) {
-				alert( "Pilz aufgesammelt" );
+				console.log( "Pilz aufgesammelt" );
 				scene.remove( itemPilz );
 				pilzGet = true;
 			}
@@ -31,11 +31,43 @@
 			if ( user.position.x <= (itemBlumeX+area) && user.position.x >= (itemBlumeX-area) 
 				&& user.position.z <= (itemBlumeZ+area) && user.position.z >= (itemBlumeZ-area) ) {
 				scoreBlumen += 10;
-				alert( "Blume aufgesammelt. Aktueller Score: " + scoreBlumen );
-				//scene.remove( itemBlume );			
+				console.log( "Blume aufgesammelt. Aktueller Score: " + scoreBlumen );
+				scene.remove( itemBlume );			
 			}	
 		}
+
+		// random Blumen aufsammeln
+		for (var i=0; i<blumen.length; i++)
+		{
+			if (user.position.x <= (blumen[i].position.x+area) && user.position.x >= (blumen[i].position.x-area) && user.position.z <= (blumen[i].position.z+area) && user.position.z >= (blumen[i].position.z-area) )
+			{
+				console.log(blumen.length);
+				scene.remove(blumen[i]);
+				blumen.splice(i);
+				scoreBlumen +=10;
+		 		console.log( 'Blume aufgesammelt, aktueller Score = ' + scoreBlumen );
+			}
+		}
+		// if ( vertexIndex != null )
+		// {
+		// 	console.log(vertexIndex);
+		// 	for (var i; i < blumen.length; i++ )
+		// 		console.log(i);
+		// 		scene.remove(blumen[i]);
+		// }
+		// for (var i=0; i < blumen.length; i++)
+		// {
+		// 	if (vertexIndex != null && blumen[i] != null && user.position.x <= (blumen[i].position.x+area) && user.position.x >= (blumen[i].position.x-area) && user.position.z <= (blumen[i].position.z+area) && user.position.z >= (blumen[i].position.z-area) )
+		// 	{
+		// 		console.log(blumen[i]);
+		// 		scene.remove( blumen[i] );
+		// 		blumen[i] = null;
+		// 		scoreBlumen +=10;
+		// 		console.log( 'Blume aufgesammelt, aktueller Score = ' + scoreBlumen );			
+		//  	}
+		// }
 	}
+	
 
 				function itemDetection(){
 				// Cube Position in originPoint kopiert
@@ -55,7 +87,7 @@
 					// origin Point und normalisierter Richtungsvektor des Cubes
 					var ray = new THREE.Raycaster( originPoint, directionVector.clone().normalize() );
 					// Kollisionen = Überschneidungen des Cubes mit collidableMeshList
-					var collisionResults = ray.intersectObjects( itemList );
+					var collisionResults = ray.intersectObjects( blumen );
 					// Wenn Kollisionslänge größer als 0 UND Kollisionsergebnis-Distanz an der Stelle 0 ist kleiner als Länge des Richtungsvektors
 					if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length() ){
 						// zeige vertexIndex an und gib ihn zurück
@@ -65,3 +97,5 @@
 					}
 				}
 			}
+
+			

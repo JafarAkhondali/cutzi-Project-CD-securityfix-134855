@@ -2,12 +2,11 @@
 			function update() {
 				var delta = clock.getDelta(); // seconds.
 				var step = 200 * delta; // 200 pixels per second
-				var fixStep = 5;
+				var fixStep = 10;
 				var rotateAngle = Math.PI / 2 * delta;   // pi/2 radians (90 degrees) per second
 				
 				vertexIndex = collisionDetection();
-				// local transformations
-				//keyDownHandler(event);
+
 			// move forwards/backwards/left/right
 				if ( keyboard.pressed('up') && vertexIndex != 4 && vertexIndex != 6 && vertexIndex != 1 && vertexIndex != 3 )
 					user.translateZ( -step );
@@ -22,10 +21,9 @@
 				if ( keyboard.pressed('right') && vertexIndex != 1 && vertexIndex != 3 && vertexIndex != 0 && vertexIndex != 2 )
 					user.rotateOnAxis( new THREE.Vector3(0,1,0), -rotateAngle);
 
-	
 				if ( keyboard.pressed('ctrl') )
 				{
-					alert(user.position.x + ", " + user.position.y + ", " + user.position.z );
+					console.log(user.position.x + ", " + user.position.y + ", " + user.position.z );
 				}
 				
 	
@@ -46,7 +44,7 @@
 				// console.log('z' + cube.position.z);
 			}
 
-		// Kollisionserkennung; erkennt Wände, kann aber z.B. nicht nach rechts laufen, wenn vertexIndex = 1, geht aber nach rechts (an wand entlang)
+		// Kollisionserkennung; 
 			function collisionDetection(){
 				// Cube Position in originPoint kopiert
 				var originPoint = user.position.clone();
