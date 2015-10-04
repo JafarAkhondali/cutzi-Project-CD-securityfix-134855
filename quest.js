@@ -1,39 +1,39 @@
-//
-
 function checkQuest() {
 	var area = 50;
 	var tabPosX = tabaluga.position.x;
 	var tabPosZ = tabaluga.position.z;
-	if (questFinish == false && questTrue == false ) 
-	{				
-		if ( user.position.x <= (tabPosX+area) && user.position.x >= (tabPosX-area) 
-		&& user.position.z <= (tabPosZ+area) && user.position.z >= (tabPosZ-area) )
-		{
-			// camera top?
-			initField();
-			questTrue = true;
-			// check
 
-			var newDir = new THREE.Vector3(-1, 0, 0);
-			var pos = new THREE.Vector3();
-			pos.addVectors(newDir, user.position);
-			user.lookAt(pos);
+	//check if quest has been finished and has not been started
+	if (questTrue == false) {
+		var newDir = new THREE.Vector3(-1, 0, 0);
+		var pos = new THREE.Vector3();
+		if (questFinish == false) {
+			//check user position
+			if ( user.position.x <= (tabPosX+area) && user.position.x >= (tabPosX-area) && user.position.z <= (tabPosZ+area) && user.position.z >= (tabPosZ-area)) {
+				//init quest
+				initField();
+				questTrue = true;
 
-			user.position.setX(1000);
-			user.position.setZ(-1200);
-			console.log('los gehts');
-			window.addEventListener( 'keydown', checkField, false);
-			checkField();
-		}
+				pos.addVectors(newDir, user.position);
+				user.lookAt(pos);
+
+				user.position.setX(1000);
+				user.position.setZ(-1200);
+
+				window.addEventListener( 'keyup', function(event){
+					checkField(event)
+				}, false);
+			}
+		};
 	}
 }
 
 
 
-function initField()
-{
+function initField() {
 	var wayGeo = new THREE.BoxGeometry(50,1,50);
 	var wayMat = new THREE.MeshBasicMaterial( { color: 0xff0000, side: THREE.DoubleSide });
+	
 	way = new THREE.Mesh( wayGeo, wayMat );
 	scene.add( way );
 	//1
@@ -94,36 +94,64 @@ function initField()
 	way15 = way.clone();
 	way15.position.set(way14.position.x+50,way14.position.y,way14.position.z);
 	scene.add( way15 );
-}
 
-function checkField(event)
-{
-	for (var i = 0; i < 15; i++ )
-	{
-		if (event.keyCode == dir[i])
-		{
-			console.log(dir[i]);
-			return true;
-		} else{
-			console.log('du bist doof');
+	//after 2seconds
+	setTimeout(
+		function() {
+			scene.remove(way);
+			scene.remove(way2);
+			scene.remove(way3);
+			scene.remove(way4);
+			scene.remove(way5);
+			scene.remove(way6);
+			scene.remove(way7);
+			scene.remove(way8);
+			scene.remove(way9);
+			scene.remove(way10);
+			scene.remove(way11);
+			scene.remove(way12);
+			scene.remove(way13);
+			scene.remove(way14);
+			scene.remove(way15);
 		}
-
-	}
-	// if (event.keyCode == 87 )
-	// {
-	// 	user.position.x += 50;
-	// 	console.log(user.position.x);
-	// 	if (event.keyCode == 68 )
-	// 	{
-	// 		user.position.z += 50;
-	// 	}else{
-	// 		console.log('wut');
-	// 	}
-	// }
-	// else
-	// {
-	// 	console.log('dat wars');
-	// 	questTrue = false;
-	// }
+	, 2500);
 }
 
+checkField = function(event) {
+	if (event.keyCode == 87 || event.keyCode == 68 || event.keyCode == 65) {
+		if (game_status == 1) {
+			//current position array = dir[cookie]
+			if (dir[cookie] == event.keyCode) {
+				//next positon correct
+				if (event.keyCode == 87) {
+					user.translateZ(-50);
+				} else if (event.keyCode == 68){
+					user.translateX(50);
+				} else if (event.keyCode == 65){
+					user.translateX(-50);
+				}
+				if (cookie == 14) {
+					//quest finished
+					questFinish = true;
+					clearText();
+					appendText('You won! Now try to make some money or press "r" to resume to the open world.');
+				};
+				cookie = cookie + 1;
+			} else {
+				//next position error
+				game_status = 0;
+				clearText();
+				appendText('Game over! Press "r" to resume to the open world.');
+			};
+		};
+	}
+	if (event.keyCode == 82) {
+		//resume open world
+		questTrue = false;
+		game_status = 1;
+		cookie = 0;
+		clearText();
+	}
+	console.log('cookie: '+cookie);
+	console.log('game_status: '+game_status);
+};

@@ -2,38 +2,47 @@
 	function checkItem() {
 		// Apfel aufsammeln
 		var area = 10;
-		var vertexIndex = itemDetection();
+		//var vertexIndex = itemDetection();
+		var itemApfel;
+		var itemPilz;
+		var itemBlume;
 		if ( apfelGet == false ) {
-			var itemApfelX = itemApfel.position.x;
-			var itemApfelZ = itemApfel.position.z;
-			if ( user.position.x <= (itemApfelX+area) && user.position.x >= (itemApfelX-area) 
-				&& user.position.z <= (itemApfelZ+area) && user.position.z >= (itemApfelZ-area) ){
-				console.log( "Apfel aufgesammelt" );
-				scene.remove( itemApfel );
-				apfelGet = true;
+			if (!!itemApfel) {
+				itemApfelX = itemApfel.position.x;
+				itemApfelZ = itemApfel.position.z;
+				if ( user.position.x <= (itemApfelX+area) && user.position.x >= (itemApfelX-area) 
+					&& user.position.z <= (itemApfelZ+area) && user.position.z >= (itemApfelZ-area) ){
+					console.log( "Apfel aufgesammelt" );
+					scene.remove( itemApfel );
+					apfelGet = true;
+				}
 			}
 		} 
 		// Pilz aufsammeln
 		if ( pilzGet == false ) {
-			var itemPilzX = itemPilz.position.x;
-			var itemPilzZ = itemPilz.position.z;
-			if (user.position.x <= (itemPilzX+area) && user.position.x >= (itemPilzX-area) 
-				&& user.position.z <= (itemPilzZ+area) && user.position.z >= (itemPilzZ-area) ) {
-				console.log( "Pilz aufgesammelt" );
-				scene.remove( itemPilz );
-				pilzGet = true;
-			}
+			if (!!itemPilz) {
+				itemPilzX = itemPilz.position.x;
+				itemPilzZ = itemPilz.position.z;
+				if (user.position.x <= (itemPilzX+area) && user.position.x >= (itemPilzX-area) 
+					&& user.position.z <= (itemPilzZ+area) && user.position.z >= (itemPilzZ-area) ) {
+					console.log( "Pilz aufgesammelt" );
+					scene.remove( itemPilz );
+					pilzGet = true;
+				}
+			};
 		}
 		// Blumen aufsammeln
 		if ( blumenGet == false ) {
-			var itemBlumeX = itemBlume.position.x;
-			var itemBlumeZ = itemBlume.position.z;	
-			if ( user.position.x <= (itemBlumeX+area) && user.position.x >= (itemBlumeX-area) 
-				&& user.position.z <= (itemBlumeZ+area) && user.position.z >= (itemBlumeZ-area) ) {
-				scoreBlumen += 10;
-				console.log( "Blume aufgesammelt. Aktueller Score: " + scoreBlumen );
-				scene.remove( itemBlume );			
-			}	
+			if (!!itemBlume) {
+				itemBlumeX = itemBlume.position.x;
+				itemBlumeZ = itemBlume.position.z;	
+				if ( user.position.x <= (itemBlumeX+area) && user.position.x >= (itemBlumeX-area) 
+					&& user.position.z <= (itemBlumeZ+area) && user.position.z >= (itemBlumeZ-area) ) {
+					scoreBlumen += 10;
+					console.log( "Blume aufgesammelt. Aktueller Score: " + scoreBlumen );
+					scene.remove( itemBlume );			
+				}
+			};
 		}
 
 		// random Blumen aufsammeln
@@ -69,7 +78,7 @@
 	}
 	
 
-				function itemDetection(){
+			function itemDetection(){
 				// Cube Position in originPoint kopiert
 				var originPoint = user.position.clone();
 				clearText();
@@ -92,7 +101,6 @@
 					if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length() ){
 						// zeige vertexIndex an und gib ihn zurück
 				        //console.log(collisionResults);
-				        appendText(vertexIndex);
 				        return vertexIndex;
 					}
 				}
