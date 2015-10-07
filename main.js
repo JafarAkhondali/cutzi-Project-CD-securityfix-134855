@@ -35,7 +35,7 @@
 			function init() {
 			// Scene
 				scene = new THREE.Scene();
-				scene.fog = new THREE.FogExp2( backgroundColor, 0.0015 );
+				//scene.fog = new THREE.FogExp2( backgroundColor, 0.0015 );
 
 
 			// Camera
@@ -57,13 +57,34 @@
 
 			// Events
 				window.addEventListener( 'resize', onWindowResize, false );
-				
+			
+			//Create Skybox
+				THREE.ImageUtils.crossOrigin = '';
+				var materialArray = [];
+				for ( var i = 0; i < 6; i++ ){
+					materialArray.push( new THREE.MeshBasicMaterial({ 
+					//map: THREE.ImageUtils.loadTexture('img/skybox/'+i+'.png'),
+					map: THREE.ImageUtils.loadTexture('http://caro.x15.eu/img/skybox/'+i+'.png'),
+					side: THREE.BackSide
+					}));
+				}	
+		
+				var skyBoxGeo = new THREE.CubeGeometry( 4000, 4000, 4000 );
+				//MeshFaceMaterial ben?tigt unebdingt ein Array bestehend aus Materials.
+				var skyBoxMat = new THREE.MeshFaceMaterial( materialArray );
+				//skyBoxMat = new THREE.MeshBasicMaterial( { color: 0xad655f, wireframe: true } );
+				var skyBox = new THREE.Mesh( skyBoxGeo, skyBoxMat );
+				//skyBox.rotation.x += Math.PI / 2;
+				skyBox.position.set(0, 249, 0);
+				scene.add( skyBox );
+			
 
 			// Floor
 				var planeGeo = new THREE.PlaneBufferGeometry(4000, 4000, 100, 100);
-				var planTex  = new THREE.ImageUtils.loadTexture("grass.jpg");
-				var planeMat = new THREE.MeshPhongMaterial( {color: 0x198c19, side: THREE.DoubleSide}); 
-				//var planeMat = new THREE.MeshPhongMaterial({ map:planeTex, side:THREE.DoubleSide });
+				//THREE.ImageUtils.crossOrigin = '';
+				var planeTex = THREE.ImageUtils.loadTexture('http://caro.x15.eu/img/forest.png');
+				//var planeMat = new THREE.MeshPhongMaterial( {color: 0x198c19, side: THREE.DoubleSide}); 
+				var planeMat = new THREE.MeshPhongMaterial({ map:planeTex, side:THREE.DoubleSide });
 				
 				//new begin
 				var vertices = planeGeo.attributes.position.array;
