@@ -40,10 +40,10 @@
 
 			// Camera
 				var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
-				var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 50, FAR = 20000;
+				var VIEW_ANGLE = 50, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 50, FAR = 20000;
 				camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
 				scene.add(camera);
-				//camera.position.set(0,150,400);
+				//camera.position.set(0,25,0);
 				camera.lookAt(scene.position);	
 
 
@@ -63,9 +63,8 @@
 				var materialArray = [];
 				for ( var i = 0; i < 6; i++ ){
 					materialArray.push( new THREE.MeshBasicMaterial({ 
-					//map: THREE.ImageUtils.loadTexture('img/skybox/'+i+'.png'),
-					map: THREE.ImageUtils.loadTexture('http://caro.x15.eu/img/skybox/'+i+'.png'),
-					side: THREE.BackSide
+						map: THREE.ImageUtils.loadTexture('http://caro.x15.eu/img/skybox/'+i+'.png'),
+						side: THREE.BackSide
 					}));
 				}	
 		
