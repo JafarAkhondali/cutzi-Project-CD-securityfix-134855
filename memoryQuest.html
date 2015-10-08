@@ -18,7 +18,7 @@
 		</style>
 	</head>
 	<body>
-		<div id="hud">Red Riding Hood <br> 100 HP <br> 0/3 Items</div>
+		<div id="hud"> <div id="hp">100 HP</div> 0/3 Items</div>
 		<script src="https://rawgit.com/mrdoob/three.js/master/build/three.js"></script>
 		
 		<script>
@@ -32,6 +32,8 @@ window.onload = function () {
 	var shroom = [];
 	var shroomState = [];
 	var cursorPointingAt = 0;
+	
+	var hp = 100;
 	
 	THREE.ImageUtils.crossOrigin = '';
 	var planeTex = THREE.ImageUtils.loadTexture('http://caro.x15.eu/img/forest.png');
@@ -186,6 +188,9 @@ window.onload = function () {
 			if(prevState != null){
 				if(prevState == false){
 					console.log("Abzug von HP!");
+					hp -= 10;
+					var hpHUD = document.getElementById("hp");
+					hpHUD.innerHTML = hp + " HP";
 				}
 				prevState = null;
 				setTimeout(function(){resetShrooms()}, 3000);
