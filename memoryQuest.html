@@ -43,6 +43,8 @@ window.onload = function () {
 	var shroomState = [];
 	var cursorPointingAt = 0;
 	
+	var snd = new Audio("sound/pickup.wav"); // buffers automatically when created
+	
 	var hp = 100;
 	
 	THREE.ImageUtils.crossOrigin = '';
@@ -162,6 +164,7 @@ window.onload = function () {
 				}
 				
 				if( keyCode == 13 ){
+					snd.play();
 					console.log('Enter');
 					checkShroom();
 				}
