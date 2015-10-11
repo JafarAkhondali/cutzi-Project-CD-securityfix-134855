@@ -20,7 +20,8 @@
 			var particleGroup, emitter;
 			var cookie = 0;
 			var game_status = 1;
-
+			
+			var forestSnd = new Audio("sound/forest.wav");
 
 
 			init();
@@ -144,7 +145,10 @@
 				wall2.position.set(2000, 50, 0);
 				wall2.rotation.y = 3.14159 / 2;
 				scene.add(wall2);
-				collidableMeshList.push(wall2);					
+				collidableMeshList.push(wall2);		
+
+				//Sound 
+				forestSnd.play();
 			}
 
 

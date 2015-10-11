@@ -43,7 +43,11 @@ window.onload = function () {
 	var shroomState = [];
 	var cursorPointingAt = 0;
 	
-	var snd = new Audio("sound/pickup.wav"); // buffers automatically when created
+	//load soundfiles
+	var pickupSnd = new Audio("sound/pickup.wav"); // buffers automatically when created
+	var errorSnd = new Audio("sound/error.wav");
+	var forestSnd = new Audio("sound/forest.wav");
+	
 	
 	var hp = 100;
 	
@@ -63,7 +67,7 @@ window.onload = function () {
 	document.addEventListener("keydown", onDocumentKeyDown, false);	
 	
     function init() {
-
+		
         scene = new THREE.Scene();
 
         camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 4000);
@@ -109,6 +113,9 @@ window.onload = function () {
 		//Create Rest
 		initMemoryQuest();
 
+		//Start sound
+		forestSnd.play();
+		
         renderer = new THREE.WebGLRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
 
@@ -164,7 +171,7 @@ window.onload = function () {
 				}
 				
 				if( keyCode == 13 ){
-					snd.play();
+					pickupSnd.play();
 					console.log('Enter');
 					checkShroom();
 				}
@@ -212,6 +219,7 @@ window.onload = function () {
 					hp -= 10;
 					var hpHUD = document.getElementById("hp");
 					hpHUD.innerHTML = hp + " HP";
+					errorSnd.play();
 				}
 				prevState = null;
 				setTimeout( function(){ resetShrooms() }, 500 );
