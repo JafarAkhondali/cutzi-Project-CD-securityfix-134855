@@ -5,7 +5,7 @@
 			body { margin: 0; }
 			canvas { width: 100%; height: 100% }
 			
-			#hud {
+			#hud, #info {
 				font-size: 200%;
 				font-family:verdana
 				background-color:lightgrey;
@@ -15,10 +15,19 @@
 				border-width: 5px;
 				border-color: grey;-->
 			}
+			
+			#info {
+				margin-left: 35%;
+				font-size: 100%;
+				font-family:verdana
+				position: absolute;
+				color: white;
+			}
 		</style>
 	</head>
 	<body>
 		<div id="hud"> <div id="hp">100 HP</div> 0/3 Items</div>
+		<div id="info">Finde die beiden Steinpilze. Mit [Enter] kannst du die Pilze genauer betrachten. <br> Doch Obacht! Wenn du zwei Fliegenpilze aufdeckst verlierst du 10 Lebenspunkte!</div>
 		<script src="https://rawgit.com/mrdoob/three.js/master/build/three.js"></script>
 		
 		<script>
@@ -30,6 +39,7 @@ window.onload = function () {
 	
 	var prevState = null;
 	var shroom = [];
+	var shroomHead = [];
 	var shroomState = [];
 	var cursorPointingAt = 0;
 	
@@ -37,6 +47,9 @@ window.onload = function () {
 	
 	THREE.ImageUtils.crossOrigin = '';
 	var planeTex = THREE.ImageUtils.loadTexture('http://caro.x15.eu/img/forest.png');
+	var shroomHeadRedTex = THREE.ImageUtils.loadTexture('http://caro.x15.eu/img/fliegenpilz.png');
+	var shroomHeadNormalTex = THREE.ImageUtils.loadTexture('http://caro.x15.eu/img/pilz.png'); 
+	
 	planeTex.wrapS = THREE.RepeatWrapping;
 	planeTex.wrapT = THREE.RepeatWrapping;
 	planeTex.repeat.set( 4, 4 );
@@ -56,9 +69,9 @@ window.onload = function () {
 		
 
 		//Create Cube
-        geometry = new THREE.BoxGeometry( 5, 5, 5 );
+        geometry = new THREE.BoxGeometry( 7, 7, 7 );
         //material = new THREE.MeshBasicMaterial( { color: 0xad655f, wireframe: true } );
-		material = new THREE.MeshBasicMaterial({color:0xff0000, transparent:true, opacity:0.2, side: THREE.DoubleSide});
+		material = new THREE.MeshBasicMaterial({color:0xEEE9E9, transparent:true, opacity:0.2, side: THREE.DoubleSide});
         mesh = new THREE.Mesh( geometry, material );
         scene.add( mesh );
 		mesh.position.x = -20;
@@ -114,29 +127,37 @@ window.onload = function () {
 				var units = 15;
 				//up
 				if( keyCode == 38 ){
-					mesh.translateZ(-(units-5));
-					cursorPointingAt -= 3;
+					if( cursorPointingAt != 0 && cursorPointingAt != 1 && cursorPointingAt != 2 ) {
+						mesh.translateZ(-(units-5));
+						cursorPointingAt -= 3;
+					}
 					//camera.translateZ( -units );
 				}
 				
 				//down
 				if( keyCode == 40 ){
-					mesh.translateZ(units-5);
-					cursorPointingAt += 3;
+					if( cursorPointingAt != 6 && cursorPointingAt != 7 && cursorPointingAt != 8 ){
+						mesh.translateZ(units-5);
+						cursorPointingAt += 3;
+					}
 					//camera.translateZ( units );
 				}
 
 				//left
 				if( keyCode == 37 ){
-					mesh.translateX(- units);
-					cursorPointingAt -= 1;
+					if( cursorPointingAt != 0 && cursorPointingAt != 3 && cursorPointingAt != 6 ) {
+						mesh.translateX(- units);
+						cursorPointingAt -= 1;
+					}
 					//camera.translateX( -units );
 				}
 				
 				//right
 				if( keyCode == 39 ){
-					mesh.translateX(units);
-					cursorPointingAt += 1;
+					if( cursorPointingAt != 2 && cursorPointingAt != 5 && cursorPointingAt != 8 ){
+						mesh.translateX(units);
+						cursorPointingAt += 1;
+					}
 					//camera.translateX( units );
 				}
 				
@@ -152,48 +173,43 @@ window.onload = function () {
 	}
 	
 	function initMemoryQuest() {
-		THREE.ImageUtils.crossOrigin = '';
-		var memoryTex = THREE.ImageUtils.loadTexture('http://caro.x15.eu/grass.jpg');
-		var memoryGeo = new THREE.PlaneBufferGeometry( 50, 50, 32 );
-		//var memoryMat = new THREE.MeshBasicMaterial( { color: 0x5dff4f, side: THREE.DoubleSide } );
-		var memoryMat =  new THREE.MeshBasicMaterial( { map: memoryTex } );
-		var memory = new THREE.Mesh( memoryGeo, memoryMat );
 		camera.rotation.x = 125;
-		memory.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2) );
-		scene.add( memory );
-		memory.position.set(0,1,0);
+
 		createShrooms();
 	}
 	
 	function checkShroom() {
-		if(shroomState[cursorPointingAt] == true ){
-			shroom[cursorPointingAt].material.color.setHex( 0x00ff7f );
-			if(prevState != null){
+		if(shroomState[cursorPointingAt] == true ) {
+			//shroom[cursorPointingAt].material.color.setHex( 0x00ff7f );
+			shroomHead[cursorPointingAt].material.map = THREE.ImageUtils.loadTexture('http://caro.x15.eu/img/steinpilz.png');
+			//shroomHead[cursorPointingAt].material.color.setHex( 0x00ff7f );
+			if(prevState != null) {
 				//Compare
-				if(prevState == true){
+				if(prevState == true) {
 					console.log("Glueckwunsch!");
-					//End game here
+					//End quest here
 				}
-				else{
+				else {
 					prevState = null;
-					setTimeout(function(){resetShrooms()}, 1000);
+					setTimeout( function(){ resetShrooms() }, 500 );
 				}
 			}
-			else{
+			else {
 				prevState = true;
 			}
 		}
-		else{
-			shroom[cursorPointingAt].material.color.setHex( 0x990000 );
-			if(prevState != null){
-				if(prevState == false){
+		else {
+			//shroom[cursorPointingAt].material.color.setHex( 0x990000 );
+			shroomHead[cursorPointingAt].material.map = THREE.ImageUtils.loadTexture('http://caro.x15.eu/img/fliegenpilz.png');
+			if( prevState != null ) {
+				if( prevState == false ) {
 					console.log("Abzug von HP!");
 					hp -= 10;
 					var hpHUD = document.getElementById("hp");
 					hpHUD.innerHTML = hp + " HP";
 				}
 				prevState = null;
-				setTimeout(function(){resetShrooms()}, 3000);
+				setTimeout( function(){ resetShrooms() }, 500 );
 			}
 			else{
 				prevState = false;
@@ -203,16 +219,18 @@ window.onload = function () {
 	
 	function resetShrooms(){
 		for(var i = 0; i < 9; i++){
-			shroom[i].material.color.setHex( 0xffff00 );
+			shroom[i].material.color.setHex( 0xffffff );
+			shroomHead[i].material.map = THREE.ImageUtils.loadTexture('http://caro.x15.eu/img/pilz.png');
 		}
 	}
 	
 	function createShrooms() {
-		var shroomGeo = new THREE.CylinderGeometry( 1, 1, 10, 32 );
+		var shroomGeo = new THREE.CylinderGeometry( 1, 1, 10, 8 );
 		//var shroomMat = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
 
 		for( var i = 0; i < 9; i++ ){
-			var shroomMat = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+			//var shroomMat = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+			var shroomMat = new THREE.MeshBasicMaterial( { color: 0xffffff } );
 			shroom[i] = new THREE.Mesh( shroomGeo, shroomMat );
 			scene.add( shroom[i] );
 		}
@@ -234,9 +252,20 @@ window.onload = function () {
 			}
 		//}
 		
+		var shroomHeadGeo = new THREE.CylinderGeometry( .1, 3, 3, 8 );
 		
+		for( var i = 0; i < 9; i++ ) {
+			//var shroomHeadMat = new THREE.MeshBasicMaterial( { color: 0x8B3A3A } );
+			var shroomHeadMat = new THREE.MeshBasicMaterial( { map: shroomHeadNormalTex } );
+			shroomHead[i] = new THREE.Mesh( shroomHeadGeo, shroomHeadMat );
+			scene.add( shroomHead[i] );
+		}
+		
+		
+		//Set positions
 		var x = -20;
 		var z = -20;
+		var y = 5;
 		
 		shroom[0].position.z = z;
 		shroom[0].position.x = x;
@@ -264,7 +293,12 @@ window.onload = function () {
 		
 		shroom[8].position.z = z+20;
 		shroom[8].position.x = x+30;
-			
+		
+		for( var i = 0; i < 9; i++ ) {
+			shroomHead[i].position.z = shroom[i].position.z;
+			shroomHead[i].position.x = shroom[i].position.x;
+			shroomHead[i].position.y = y;
+		}
 		
 	}
 }
