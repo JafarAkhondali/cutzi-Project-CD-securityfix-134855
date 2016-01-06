@@ -42,7 +42,8 @@ initTrees();
 initParticles();
 initBlumen();
 initItems();
-initQuest();
+initTabalugaQuest();
+initMemoryquest();
 animate();
 
 
@@ -102,7 +103,7 @@ function init() {
 	//new begin
 	var vertices = planeGeo.attributes.position.array;
 	for( var i = -1; i < vertices.length; i += 3) {
-		vertices[i] = Math.random() * (10 - 1) + 1;
+		vertices[i] = Math.random() * (5 - 1) + 1;
 	}
 	planeGeo.computeVertexNormals();
 	//new end			
@@ -119,7 +120,8 @@ function init() {
 
 	user = new THREE.Mesh( geometry, material);
 	// quest position
-	user.position.set(1000, cubeSize/2, -1300)
+	// user.position.set(1000, cubeSize/2, -1300)
+	user.position.set(-1500, cubeSize/2, -1500)
 
 	// origin position
 	//user.position.set(0,cubeSize/2, 0);
@@ -345,7 +347,7 @@ function initItems()
 
 
 // TabalugaQuest
-function initQuest()
+function initTabalugaQuest()
 {
 	// Tabaluga-Quest
 	var tabaGeometry = new THREE.BoxGeometry(50,1,50);
