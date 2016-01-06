@@ -16,7 +16,7 @@ function checkQuest() {
 				game_status = 1;
 				appendTextIn();
 
-				var visibleFields = initField();
+				var visibleFields = initWay();
 				questTrue = true;
 
 				pos.addVectors(newDir, user.position);
@@ -26,8 +26,8 @@ function checkQuest() {
 				user.position.setZ(-1200);
 
 				
-				// 8s waittime to start quest. after first round no waittime
-				/*setTimeout(
+				// 8s waitingtime to start quest. after first round no waittime
+				setTimeout(
 					function() {
 						if (keyUpAdded == false){
 							window.addEventListener( 'keyup', function (event){ checkField(event) }, false);
@@ -36,13 +36,15 @@ function checkQuest() {
 							checkField(event);
 						}
 					}
-				, visibleFields);*/
-				if (keyUpAdded == false){
+				, visibleFields);
+
+				// without waitingtime
+				/*if (keyUpAdded == false){
 					window.addEventListener( 'keyup', function (event){ checkField(event) }, false);
 					keyUpAdded = true;
 				} else {
 					checkField(event);
-				}
+				}*/
 
 			}
 		};
@@ -51,7 +53,7 @@ function checkQuest() {
 
 
 // build successway
-function initField() {
+function initWay() {
 	var increaseTime = 500;
 	var visibleTime = 1000;
 	var wayGeo = new THREE.BoxGeometry(50,1,50);
@@ -70,6 +72,7 @@ function initField() {
 			way2.position.set(way.position.x,way.position.y,way.position.z+50);
 			scene.add( way2 );
 			arrWay.push( way2 );
+			way2.name = way2;
 		}
 	, visibleTime);
 
@@ -234,14 +237,13 @@ function initField() {
 	//after 2seconds
 	setTimeout(
 		function() {
-			for (var i=0; i<arrWay.length; i++){
-				scene.remove(arrWay[i]);
-			}
+			removeWay();
 		}
 	, visibleTime);
-	console.log(visibleTime);
+
 	return visibleTime;
 }
+
 
 // check if right keyseries
 checkField = function(event) {
@@ -252,7 +254,9 @@ checkField = function(event) {
 			if (game_status == 1 && questFinish == false) {
 				//current position array = dir[cookie]
 				if (dir[cookie] == event.keyCode) {
-					
+					console.log(cookie);
+					console.log(dir[cookie]);
+					console.log(arrWay.length);
 					//next positon correct
 					if (event.keyCode == 87) {
 						user.translateZ(-50);
@@ -261,7 +265,7 @@ checkField = function(event) {
 					} else if (event.keyCode == 65){
 						user.translateX(-50);
 					}
-					scene.add(arrWay[cookie]);
+					addWay();
 					/* .... bis 14 */
 					
 					if (cookie == 14) {
@@ -291,15 +295,17 @@ checkField = function(event) {
 			game_status = 0;
 			clearTextHud();
 			appendTextHud();
+			removeArrWayElem();
 			clearTextMessage();
 			appendTextIn();
 		}
 	} catch(e) {
-		console.log('');
+		console.log(''); // erwartet W, hat aber keine eingabe erhalten!
+
 	}
 };
 
-// Build questfield
+// Build questfield (size)
 function addField(){
 	for (var i=1; i <10; i++)
 	{
@@ -323,4 +329,23 @@ function addField(){
 			field.position.set(tabaluga.position.x+50*i, tabaluga.position.y, tabaluga.position.z+50*j);
 		}
 	}
+}
+
+// removes solution-way (visibility)
+function removeWay(){
+	for (var i=0; i<arrWay.length; i++){
+		scene.remove(arrWay[i]);
+	}
+}
+
+// removes elements in arrWay for new initialization
+function removeArrWayElem(){
+	for (var i=0; i<dir.length; i++){
+		arrWay.splice(0,1);
+	}
+}
+
+// adds current wayfield in blue
+function addWay(){
+	scene.add(arrWay[cookie]);
 }
