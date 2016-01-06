@@ -13,8 +13,8 @@ function checkQuest() {
 			if ( user.position.x <= (tabPosX+area) && user.position.x >= (tabPosX-area) && user.position.z <= (tabPosZ+area) && user.position.z >= (tabPosZ-area)) {
 				//init quest
 				addField();
-				clearTextIn();
-				appendTextIn('Steuerung:<ul> <li> W: Vor <li> A/D: Links/Rechts	<li>R: Exit	</ul>');
+				game_status = 1;
+				appendTextIn();
 
 				var visibleFields = initField();
 				questTrue = true;
@@ -25,7 +25,7 @@ function checkQuest() {
 				user.position.setX(1000);
 				user.position.setZ(-1200);
 
-				game_status = 1;
+				
 				// 8s waittime to start quest. after first round no waittime
 				/*setTimeout(
 					function() {
@@ -43,6 +43,7 @@ function checkQuest() {
 				} else {
 					checkField(event);
 				}
+
 			}
 		};
 	}
@@ -58,6 +59,7 @@ function initField() {
 	
 	way = new THREE.Mesh( wayGeo, wayMat );
 	scene.add( way );
+	arrWay.push( way );
 	//1
 
 	way.position.set(1050,10,-1200);
@@ -67,6 +69,7 @@ function initField() {
 			way2 = way.clone();
 			way2.position.set(way.position.x,way.position.y,way.position.z+50);
 			scene.add( way2 );
+			arrWay.push( way2 );
 		}
 	, visibleTime);
 
@@ -78,6 +81,7 @@ function initField() {
 			way3 = way.clone();
 			way3.position.set(way2.position.x+50,way2.position.y,way2.position.z);
 			scene.add( way3 );
+			arrWay.push( way3 );
 		}
 	, visibleTime);
 
@@ -89,6 +93,7 @@ function initField() {
 			way4 = way.clone();
 			way4.position.set(way3.position.x,way3.position.y,way3.position.z+50);
 			scene.add( way4 );
+			arrWay.push( way4 );
 		}
 	, visibleTime);
 
@@ -100,6 +105,7 @@ function initField() {
 			way5 = way.clone();
 			way5.position.set(way4.position.x+50,way4.position.y,way4.position.z);
 			scene.add( way5 );
+			arrWay.push( way5 );
 		}
 	, visibleTime);
 
@@ -111,6 +117,7 @@ function initField() {
 			way6 = way.clone();
 			way6.position.set(way5.position.x+50,way5.position.y,way5.position.z);
 			scene.add( way6 );
+			arrWay.push( way6 );
 		}
 	, visibleTime);
 
@@ -122,6 +129,7 @@ function initField() {
 			way7 = way.clone();
 			way7.position.set(way6.position.x,way6.position.y,way6.position.z-50);
 			scene.add( way7 );
+			arrWay.push( way7 );
 		}
 	, visibleTime);
 
@@ -133,6 +141,7 @@ function initField() {
 			way8 = way.clone();
 			way8.position.set(way7.position.x+50,way7.position.y,way7.position.z);
 			scene.add( way8 );
+			arrWay.push( way8 );
 		}
 	, visibleTime);
 
@@ -144,6 +153,7 @@ function initField() {
 			way9 = way.clone();
 			way9.position.set(way8.position.x+50,way8.position.y,way8.position.z);
 			scene.add( way9 );
+			arrWay.push( way9 );
 		}
 	, visibleTime);
 
@@ -155,6 +165,7 @@ function initField() {
 			way10 = way.clone();
 			way10.position.set(way9.position.x,way9.position.y,way9.position.z+50);
 			scene.add( way10 );
+			arrWay.push( way10 );
 		}
 	, visibleTime);
 
@@ -166,6 +177,7 @@ function initField() {
 			way11 = way.clone();
 			way11.position.set(way10.position.x,way10.position.y,way10.position.z+50);
 			scene.add( way11 );
+			arrWay.push( way11 );
 		}
 	, visibleTime);
 
@@ -177,6 +189,7 @@ function initField() {
 			way12 = way.clone();
 			way12.position.set(way11.position.x+50,way11.position.y,way11.position.z);
 			scene.add( way12 );
+			arrWay.push( way12 );
 		}
 	, visibleTime);
 
@@ -188,6 +201,7 @@ function initField() {
 			way13 = way.clone();
 			way13.position.set(way12.position.x+50,way12.position.y,way12.position.z);
 			scene.add( way13 );
+			arrWay.push( way13 );
 		}
 	, visibleTime);
 
@@ -199,6 +213,7 @@ function initField() {
 			way14 = way.clone();
 			way14.position.set(way13.position.x,way13.position.y,way13.position.z+50);
 			scene.add( way14 );
+			arrWay.push( way14 );
 		}
 	, visibleTime);
 
@@ -210,31 +225,18 @@ function initField() {
 			way15 = way.clone();
 			way15.position.set(way14.position.x+50,way14.position.y,way14.position.z);
 			scene.add( way15 );
+			arrWay.push( way15 );
 		}
 	, visibleTime);
 
-
 	visibleTime += increaseTime;
 	
-
 	//after 2seconds
 	setTimeout(
 		function() {
-			scene.remove(way);
-			scene.remove(way2);
-			scene.remove(way3);
-			scene.remove(way4);
-			scene.remove(way5);
-			scene.remove(way6);
-			scene.remove(way7);
-			scene.remove(way8);
-			scene.remove(way9);
-			scene.remove(way10);
-			scene.remove(way11);
-			scene.remove(way12);
-			scene.remove(way13);
-			scene.remove(way14);
-			scene.remove(way15);
+			for (var i=0; i<arrWay.length; i++){
+				scene.remove(arrWay[i]);
+			}
 		}
 	, visibleTime);
 	console.log(visibleTime);
@@ -259,49 +261,7 @@ checkField = function(event) {
 					} else if (event.keyCode == 65){
 						user.translateX(-50);
 					}
-					if (cookie == 0){
-						scene.add(field);
-						scene.add(way);
-					}
-					if (cookie == 1){
-						scene.add(way2);
-					}
-					if (cookie == 2){
-						scene.add(way3);
-					}
-					if (cookie == 3){
-						scene.add(way4);
-					}
-					if (cookie == 4){
-						scene.add(way5)
-					}
-					if (cookie == 5){
-						scene.add(way6)
-					}
-					if (cookie == 6){
-						scene.add(way7)
-					}
-					if (cookie == 7){
-						scene.add(way8)
-					}
-					if (cookie == 8){
-						scene.add(way9)
-					}
-					if (cookie == 9){
-						scene.add(way10)
-					}
-					if (cookie == 10){
-						scene.add(way11)
-					}
-					if (cookie == 11){
-						scene.add(way12)
-					}
-					if (cookie == 12){
-						scene.add(way13)
-					}
-					if (cookie == 13){
-						scene.add(way14)
-					}
+					scene.add(arrWay[cookie]);
 					/* .... bis 14 */
 					
 					if (cookie == 14) {
@@ -315,6 +275,9 @@ checkField = function(event) {
 				} else {
 					//next position error
 					game_status = 0;
+					hpCounter -= 10;
+					clearTextHud();
+					appendTextHud();
 					clearTextMessage();
 					appendTextMessage('Game over! Press "r" to resume to the open world.');
 				};
@@ -326,16 +289,13 @@ checkField = function(event) {
 			questTrue = false;
 			cookie = 0;
 			game_status = 0;
-			hpCounter -= 10;
 			clearTextHud();
-			appendTextHud('Red Riding Hood <br> ' + hpCounter + ' HP <br> ' + itemCounter + '/3 Items <br> score: ' + scoreBlumen );
+			appendTextHud();
 			clearTextMessage();
-			clearTextIn();
-			appendTextIn('Steuerung:<ul> <li> Up/Down arrow: Vor/Zurück <li> Left/Right arrow: Links/Rechts	</ul>');
-
+			appendTextIn();
 		}
 	} catch(e) {
-		console.log('gib WAD ein');
+		console.log('');
 	}
 };
 

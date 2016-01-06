@@ -19,7 +19,7 @@
 						}
 					, 5000);
 					clearTextHud();
-					appendTextHud('Red Riding Hood <br> ' + hpCounter + ' HP <br> ' + itemCounter + '/3 Items <br> score: ' + scoreBlumen );
+					appendTextHud();
 					apfelGet = true;
 				}
 			//}
@@ -41,7 +41,7 @@
 						}
 					, 5000);
 					clearTextHud();
-					appendTextHud('Red Riding Hood <br> ' + hpCounter + ' HP <br> ' + itemCounter + '/3 Items <br> score: ' + scoreBlumen );	
+					appendTextHud();
 					pilzGet = true;
 				}
 			//}
@@ -65,7 +65,7 @@
 					, 5000);
 					
 					clearTextHud();
-					appendTextHud('Red Riding Hood <br> ' + hpCounter + ' HP <br> ' + itemCounter + '/3 Items <br> score: ' + scoreBlumen );	
+					appendTextHud();
 					blumenGet = true;		
 				}
 			//}
@@ -81,7 +81,7 @@
 				blumen.splice(i, 1);
 				scoreBlumen +=10;
 				clearTextHud();
-				appendTextHud('Red Riding Hood <br> ' + hpCounter + ' HP <br> ' + itemCounter + '/3 Items <br> score: ' + scoreBlumen );
+				appendTextHud();
 			}
 		}
 	}

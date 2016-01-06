@@ -28,6 +28,7 @@
 			var way, way2, way3, way4, way5, way6, way7, way8, way9, way10, way11, way12, way13, way14, way15 ;
 			var dir = [87, 68, 87, 68, 87, 87, 65, 87, 87, 68, 68, 87, 87, 68, 87];
 			var questTrue = false;
+			var arrWay = [];
 			var questFinish = false;
 			var cookie = 0;
 			var game_status = 1;
@@ -161,7 +162,7 @@
 				collidableMeshList.push(wall2);		
 
 				//Sound 
-				forestSnd.play();
+				//forestSnd.play();
 			}
 
 
