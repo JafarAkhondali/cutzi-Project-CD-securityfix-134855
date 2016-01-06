@@ -103,7 +103,7 @@ function init() {
 	//new begin
 	var vertices = planeGeo.attributes.position.array;
 	for( var i = -1; i < vertices.length; i += 3) {
-		vertices[i] = Math.random() * (5 - 1) + 1;
+		vertices[i] = Math.random() * (3 - 1) + 1;
 	}
 	planeGeo.computeVertexNormals();
 	//new end			
@@ -215,7 +215,7 @@ function initTrees()
 
 					tree = new THREE.Mesh( geometry, material );
 
-					var s = THREE.Math.randFloat( 10, 20 );
+					var s = THREE.Math.randFloat( 10, 40 );
 					tree.scale.set( s, s, s );
 
 					tree.position.set( x, 0, z );
