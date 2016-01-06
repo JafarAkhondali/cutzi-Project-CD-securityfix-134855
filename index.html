@@ -13,17 +13,43 @@
 			#hud {
 				color: white;
 				font-size: 200%;
-				font-family:verdana
-				background-color:lightgrey;
+				font-family:verdana;
 				position: absolute;
-				<!--border-style: solid;
-				border-width: 5px;
-				border-color: grey;-->
+			}
+
+			#message {
+				color: red;
+				font-size: 200%;
+				font-family:verdana;
+				position: absolute;
+				width:100%;
+				top: 50%;
+				text-align:center;
+				background-color: rgba(0, 0, 0, 0.6);
+			}
+
+			#control-info {
+				color: white;
+				font-size: 100%;
+				font-family:verdana;
+				position: absolute;
+				width:100%;
+				top: 50%;
 			}
 		</style>
 	</head>
 	<body>
-		<div id="hud">Red Riding Hood <br> 100 HP <br> 0/3 Items</div>
+		<div id="hud">Red Riding Hood <br> 100 HP <br> 0/3 Items <br> score: 0</div>
+		<div id="control-info">
+			Steuerung:
+			<ul>
+			<li>Up/Down arrow: Vor/Zurück
+			<li>Left/Right arrow: Links/Rechts
+			</ul>
+		</div>
+
+		<div id="message"> </div>
+		
 		<!--<div id="message" style="background-color:white;color:black;"></div>-->
 		<script src="mrdoob-three.js-d6384d2/build/three.min.js"></script>
 		<script src="ShaderParticles.min.js"></script>

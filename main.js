@@ -1,26 +1,39 @@
 			var camera, scene, renderer;
-			var itemApfelX, itemApfelZ, itemPilzX, itemPilzZ, itemBlumeX, itemBlumeZ;
-			var cube, itemApfel, itemPilz, itemBlume, tabaluga, field;
-			var way, way2, way3, way4, way5, way6, way7, way8, way9, way10, way11, way12, way13, way14, way15 ;
-			var questTrue = false;
-			var questFinish = false;
-			var scoreBlumen = 0;
-			var apfelGet = false;
-			var pilzGet = false;
-			var blumenGet = false;
-			var collidableMeshList = [];
-			var itemList = [];
-			var blumen = [];
-			var dir = [87, 68, 87, 68, 87, 87, 65, 87, 87, 68, 68, 87, 87, 68, 87];
 			var clock = new THREE.Clock();
 			var backgroundColor = 0xbfd1e5;
 			var keyboard = new THREEx.KeyboardState();
 			var loader = new THREE.JSONLoader();
-			var collected = false;
 			var particleGroup, emitter;
+
+			// hud-information
+			var itemCounter = 0;
+			var hpCounter = 100;
+			var scoreBlumen = 0;
+
+			// collision
+			var collidableMeshList = [];
+			var itemList = [];
+			
+			// init
+			var blumen = []; // random
+			var cube, itemApfel, itemPilz, itemBlume, tabaluga, field;
+
+			// items-help
+			var apfelGet = false;
+			var pilzGet = false;
+			var blumenGet = false;
+			var itemApfelX, itemApfelZ, itemPilzX, itemPilzZ, itemBlumeX, itemBlumeZ;
+
+			// tabaQuest
+			var way, way2, way3, way4, way5, way6, way7, way8, way9, way10, way11, way12, way13, way14, way15 ;
+			var dir = [87, 68, 87, 68, 87, 87, 65, 87, 87, 68, 68, 87, 87, 68, 87];
+			var questTrue = false;
+			var questFinish = false;
 			var cookie = 0;
 			var game_status = 1;
-			
+			var keyUpAdded = false;
+
+			// sound
 			var forestSnd = new Audio("sound/forest.wav");
 
 
@@ -209,8 +222,7 @@
 								scene.add( tree );
 
 								collidableMeshList.push( tree );
-							} else{
-								console.log('baumi');
+							} else{	
 							}
 							
 						}
@@ -254,7 +266,7 @@
 				// init loading
 				loader.load( 'http://caro.x15.eu/blume.json', function( geometry, materials ) 
 				{
-					var material = new THREE.MeshLambertMaterial( materials );
+					var material = new THREE.MeshLambertMaterial( materials);
 					for ( var i = 0; i < 150; i ++ ) 
 					{
 						// random placement in a grid
@@ -309,9 +321,10 @@
 				// init loading
 				loader.load( 'http://caro.x15.eu/pilz.json', function( geometry, materials ) 
 				{
+					var s = 10;
 					var material = new THREE.MeshLambertMaterial( materials );
 					itemPilz = new THREE.Mesh( geometry, material );
-					itemPilz.scale.set( 3, 3, 3 );
+					itemPilz.scale.set( s, s, s );
 					itemPilz.position.set( -1320, 10, -1380 );
 					scene.add( itemPilz );
 					itemList.push( itemPilz );
@@ -322,7 +335,7 @@
 				var blumeSize = 25;
 				var geometry4 = new THREE.BoxGeometry( blumeSize, blumeSize, blumeSize );
 				//var material = new THREE.MeshLambertMaterial( { color: 'rgb(255,0,0)', emissive: 0x200000 } );
-				var material4 = new THREE.MeshBasicMaterial( { color: 0xffff00, wireframe:true } );
+				var material4 = new THREE.MeshBasicMaterial( { color: 0xffff00, wireframe:false } );
 				itemBlume = new THREE.Mesh( geometry4, material4);
 				scene.add( itemBlume );
 				itemBlume.position.set(-980, blumeSize/2, 1650);
@@ -339,18 +352,6 @@
 				tabaluga = new THREE.Mesh( tabaGeometry, tabaMaterial );
 				scene.add( tabaluga );
 				tabaluga.position.set(1000,10,-1200);
-				for (var i=0; i <10; i++)
-				{
-					for (var j=0; j < 5; j++)
-					{
-						var fieldGeo = new THREE.BoxGeometry(50,1,50);
-						var fieldMat = new THREE.MeshBasicMaterial( { color: 0x000000, side: THREE.DoubleSide, wireframe: true } );
-						field = new THREE.Mesh ( fieldGeo, fieldMat );
-						scene.add( field );
-						field.position.set(tabaluga.position.x+50*i, tabaluga.position.y, tabaluga.position.z+50*j)
-					}
-				}
-				
 			}
 
 

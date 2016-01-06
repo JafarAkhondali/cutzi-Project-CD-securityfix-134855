@@ -8,13 +8,25 @@
 				vertexIndex = collisionDetection();
 
 			// move forwards/backwards/left/right
-				if (questTrue == false)
+				if (questTrue == true )
 				{	
+					var relativeCameraOffset = new THREE.Vector3(0,50,200);
+
+					var cameraOffset = relativeCameraOffset.applyMatrix4( user.matrixWorld );
+
+					camera.position.x = cameraOffset.x;
+					camera.position.y = cameraOffset.y+150;
+					camera.position.z = cameraOffset.z;
+					camera.lookAt(new THREE.Vector3(
+						user.position.x,
+						user.position.y+50,
+						user.position.z)
+					);
+				} else {
 					if ( keyboard.pressed('up') && vertexIndex != 4 && vertexIndex != 6 && vertexIndex != 1 && vertexIndex != 3 )
 						user.translateZ( -step );
 					if ( keyboard.pressed('down') && vertexIndex != 0 && vertexIndex != 2 && vertexIndex != 5 && vertexIndex != 7 )
 						user.translateZ(  step );
-
 
 					// rotate left/right/up/down
 					var rotation_matrix = new THREE.Matrix4().identity();
@@ -37,27 +49,11 @@
 					camera.position.y = cameraOffset.y;
 					camera.position.z = cameraOffset.z;
 					camera.lookAt(user.position);
-				} else {
-					var relativeCameraOffset = new THREE.Vector3(0,50,200);
-
-					var cameraOffset = relativeCameraOffset.applyMatrix4( user.matrixWorld );
-
-					camera.position.x = cameraOffset.x;
-					camera.position.y = cameraOffset.y+150;
-					camera.position.z = cameraOffset.z;
-					camera.lookAt(new THREE.Vector3(
-						user.position.x,
-						user.position.y+50,
-						user.position.z)
-					);
 				};
 
 				checkItem();
-				checkQuest();
-
-				// console.log('x' + cube.position.x);
-				// console.log('y' + cube.position.y);
-				// console.log('z' + cube.position.z);
+				//if (itemCounter == 3) 
+					checkQuest();
 			}
 
 		// Kollisionserkennung; 
@@ -87,12 +83,31 @@
 				}
 			}
 
-			function clearText(){   
+			// Picking
+			function clearTextMessage(){   
 				document.getElementById('message').innerHTML = '';
 			}
 
-			function appendText(txt){
+			function appendTextMessage(txt){
 				document.getElementById('message').innerHTML += txt;
+			}
+
+			// HUD
+			function clearTextHud(){   
+				document.getElementById('hud').innerHTML = '';
+			}
+
+			function appendTextHud(txt){
+				document.getElementById('hud').innerHTML += txt;
+			}
+
+			// Gameinfo
+			function clearTextIn(){   
+				document.getElementById('control-info').innerHTML = '';
+			}
+
+			function appendTextIn(txt){
+				document.getElementById('control-info').innerHTML += txt;
 			}
 
 			function cameraUpdate(){
@@ -105,25 +120,6 @@
 				camera.position.z = cameraOffset.z;
 				camera.lookAt( user.position );
 			}
-
-			// function up(){
-			// 	var raycaster = new THREE.Raycaster();
-			// 	raycaster.set(user.position, THREE.Vector3(0, -1, 0));
-			// 	var distance = 40;
-
-			// 	var velocity = new THREE.Vector3();
-
-			// 	var intersects = raycaster.intersectObject( plane ); //use intersectObjects() to check the intersection on multiple
-
-			// 	//new position is higher so you need to move you object upwards
-			// 	if (distance > intersects[0].distance) {        
-			// 	    user.position.y += (distance - intersects[0].distance) - 1; // the -1 is a fix for a shake effect I had
-			// 	}
-
-			// 	//gravity and prevent falling through floor
-				
-			// 	user.translateY(velocity.y);
-			// }
 
 
 
