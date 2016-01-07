@@ -114,9 +114,22 @@ function init() {
 
 
 // User
+
+loader = new THREE.JSONLoader();
+loader.load(
+	// resource URL
+	'models/rotcap.json', addUser);
+	// Function when resource is loaded
+	function addUser ( geometry, materials ) {
+		var material = new THREE.MeshFaceMaterial (materials);
+		user = new THREE.Mesh(geometry, material);
+		//model.scale.set (-10,-20,0);
+		//model.position.set (-10,-20,0)
+		scene.add(user);
+	}
 	var cubeSize = 35;
-	var geometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
-	var material = new THREE.MeshLambertMaterial( { color:  'rgb(255,0,0)', emissive: 0x200000, wireframe:false } );
+	//var geometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
+	//var material = new THREE.MeshLambertMaterial( { color:  'rgb(255,0,0)', emissive: 0x200000, wireframe:false } );
 
 	user = new THREE.Mesh( geometry, material);
 	// quest position
