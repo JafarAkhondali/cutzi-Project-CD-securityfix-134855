@@ -207,6 +207,20 @@ function animate() {
 	update();
 }		
 
+
+function isTreePlacable(x, z){
+	//With this function you can decide in which area shouldn't be trees.
+	// 1. Zeile: 1 = links unten, 2 = rechts unten, 3 = links oben, 4 = rechts oben, 5 = rechts, 6 = links, 7 = vorne, 8 = hinten
+	// 2. Zeile: Fl?che des Quadrats
+	
+	//
+	if(((x < 900 && z < -1300 ) || (x < 900 && z > -900) || ( x > 1550 && z < -1300) || ( x > 1550 && z > -900) || ( z > - 900) || ( z < -1300) || (x > 1550 ) || (x < 900))
+		|| ((x < -1700 && x > -1000) && (z < -1700 && z > -1100)) ){
+		return true;
+	}
+	
+	return false;
+}
 // Environment Trees
 function initTrees() 
 {
@@ -221,9 +235,8 @@ function initTrees()
 				var x = Math.floor(Math.random() * 4000 - 2000);
 				var z = Math.floor(Math.random() * 4000 - 2000);
 				// tabalugaQuest auslassen
-				// 1 & 2 & § & 4
-				// 1 = links unten, 2 = rechts unten, 3 = links oben, 4 = rechts oben, 5 = rechts, 6 = links, 7 = vorne, 8 = hinten
-				if ( (x < 900 && z < -1300 ) || (x < 900 && z > -900) || ( x > 1550 && z < -1300) || ( x > 1550 && z > -900) || ( z > - 900) || ( z < -1300) || (x > 1550 ) || (x < 900) ) {
+				
+				if ( isTreePlacable(x, z) ) {
 					if ( Math.abs( x ) < 200 && Math.abs( z ) < 200 ) continue;
 
 					tree = new THREE.Mesh( geometry, material );
@@ -253,7 +266,7 @@ function initTrees()
 				// random placement in a grid
 				var x = Math.random() * 4000 - 2000;
 				var z = Math.random() * 4000 - 2000;
-				if ( (x < 900 && z < -1300 ) || (x < 900 && z > -900) || ( x > 1550 && z < -1300) || ( x > 1550 && z > -900) || ( z > - 900) || ( z < -1300) || (x > 1550 ) || (x < 900) )  {
+				if ( isTreePlacable(x, z) )  {
 
 					if ( Math.abs( x ) < 200 && Math.abs( z ) < 200 ) continue;
 
