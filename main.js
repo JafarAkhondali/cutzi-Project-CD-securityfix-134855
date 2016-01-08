@@ -210,12 +210,17 @@ function isTreePlacable(x, z){
 	// 2. Zeile: Fl?che des Quadrats
 	
 	//
-	if(((x < 900 && z < -1300 ) || (x < 900 && z > -900) || ( x > 1550 && z < -1300) || ( x > 1550 && z > -900) || ( z > - 900) || ( z < -1300) || (x > 1550 ) || (x < 900))
+	/*if(((x < 900 && z < -1300 ) || (x < 900 && z > -900) || ( x > 1550 && z < -1300) || ( x > 1550 && z > -900) || ( z > - 900) || ( z < -1300) || (x > 1550 ) || (x < 900))
 		|| ((x < -1700 && x > -1000) && (z < -1700 && z > -1100)) ){
 		return true;
-	}
+	}*/
 	
-	return false;
+	if((x < 900 && z < -1300 ) || (x < 900 && z > -900) || ( x > 1550 && z < -1300) || ( x > 1550 && z > -900) || ( z > - 900) || ( z < -1300) || (x > 1550 ) || (x < 900))
+		return true;
+	else if((x < -1700 && x > -1000) && (z < -1700 && z > -1100))
+		return true;
+	else
+		return false;
 }
 
 function placeBounadries(geometry, material, isTree){
