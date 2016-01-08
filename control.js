@@ -22,11 +22,21 @@
 				user.position.z)
 			);
 		} else {
-			if ( keyboard.pressed('up') && vertexIndex != 4 && vertexIndex != 6 && vertexIndex != 1 && vertexIndex != 3 )
+			if ( keyboard.pressed('up') && vertexIndex != 4 && vertexIndex != 6 && vertexIndex != 1 && vertexIndex != 3 ){
+				stepSnd.play();
 				user.translateZ( -step );
-			if ( keyboard.pressed('down') && vertexIndex != 0 && vertexIndex != 2 && vertexIndex != 5 && vertexIndex != 7 )
+			}
+			else if(!keyboard.pressed('down')){
+				stepSnd.pause();
+			}
+			if ( keyboard.pressed('down') && vertexIndex != 0 && vertexIndex != 2 && vertexIndex != 5 && vertexIndex != 7 ){
+				stepSnd.play();
 				user.translateZ(  step );
-
+			}
+			else if(!keyboard.pressed('up')){
+				stepSnd.pause();
+			}
+			
 			// rotate left/right/up/down
 			var rotation_matrix = new THREE.Matrix4().identity();
 			if ( keyboard.pressed('left')  && vertexIndex != 4 && vertexIndex != 5 && vertexIndex != 6 && vertexIndex != 7 )

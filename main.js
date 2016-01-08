@@ -35,10 +35,11 @@ var keyUpAdded = false;
 
 // sound
 var forestSnd = new Audio("sound/forest.wav");
+var stepSnd = new Audio("sound/steps.wav");
 
 
 init();
-initTrees();
+//initTrees();
 initParticles();
 initBlumen();
 initItems();
