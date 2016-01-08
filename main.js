@@ -39,7 +39,7 @@ var stepSnd = new Audio("sound/steps.wav");
 
 
 init();
-//initTrees();
+initTrees();
 initParticles();
 initBlumen();
 initItems();
