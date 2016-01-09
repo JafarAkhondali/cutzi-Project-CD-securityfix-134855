@@ -10,33 +10,33 @@ function initTrees()
 		//place trees as boundaries first
 		placeBounadries(geometry, material, true);
 		
-			for ( var i = 0; i < 200; i ++ ) 
-			{
-				// random placement in a grid
-				var x = Math.floor(Math.random() * 4000 - 2000);
-				var z = Math.floor(Math.random() * 4000 - 2000);
-				// tabalugaQuest auslassen	
-				
-				if ( isTreePlacable(x, z) ) {
-					if ( Math.abs( x ) < 200 && Math.abs( z ) < 200 ) continue;
+		for ( var i = 0; i < 200; i ++ ) 
+		{
+			// random placement in a grid
+			var x = Math.floor(Math.random() * 4000 - 2000);
+			var z = Math.floor(Math.random() * 4000 - 2000);
+			
+			// tabalugaQuest auslassen	
+			if ( isTreePlacable(x, z) ) {
+				if ( Math.abs( x ) < 200 && Math.abs( z ) < 200 ) continue;
 
-					tree = new THREE.Mesh( geometry, material );
+				tree = new THREE.Mesh( geometry, material );
 
-					var s = THREE.Math.randFloat( 10, 40 );
-					tree.scale.set( s, s, s );
+				var s = THREE.Math.randFloat( 10, 40 );
+				tree.scale.set( s, s, s );
 
-					tree.position.set( x, 0, z );
-					tree.rotation.y = THREE.Math.randFloat( -0.25, 0.25 );
+				tree.position.set( x, 0, z );
+				tree.rotation.y = THREE.Math.randFloat( -0.25, 0.25 );
 
-					tree.matrixAutoUpdate = false;
-					tree.updateMatrix();
+				tree.matrixAutoUpdate = false;
+				tree.updateMatrix();
 
-					scene.add( tree );
+				scene.add( tree );
 
-					collidableMeshList.push( tree );
-				}
-				
+				collidableMeshList.push( tree );
 			}
+				
+		}
 	});
 	loader.load( 'http://caro.x15.eu/baum.json', function( geometry, materials ) 
 	{					
@@ -44,31 +44,33 @@ function initTrees()
 		
 		//place trees as boundaries first
 		placeBounadries(geometry, material, false); //false, because it's a fir not a tree.
-			for ( var i = 0; i < 200; i ++ ) 
-			{
-				// random placement in a grid
-				var x = Math.random() * 4000 - 2000;
-				var z = Math.random() * 4000 - 2000;
-				if ( isTreePlacable(x, z) )  {
-					//placeFir(x, z, tree);
-					if ( Math.abs( x ) < 200 && Math.abs( z ) < 200 ) continue;
+		
+		for ( var i = 0; i < 200; i ++ ) 
+		{
+			// random placement in a grid
+			var x = Math.random() * 4000 - 2000;
+			var z = Math.random() * 4000 - 2000;
+			
+			if ( isTreePlacable(x, z) )  {
+				//placeFir(x, z, tree);
+				if ( Math.abs( x ) < 200 && Math.abs( z ) < 200 ) continue;
 
-					tree = new THREE.Mesh( geometry, material );
+				tree = new THREE.Mesh( geometry, material );
 
-					var s = THREE.Math.randFloat( 10, 20 );
-					tree.scale.set( s, s, s );
+				var s = THREE.Math.randFloat( 10, 20 );
+				tree.scale.set( s, s, s );
 
-					tree.position.set( x, 0, z );
-					tree.rotation.y = THREE.Math.randFloat( -0.25, 0.25 );
+				tree.position.set( x, 0, z );
+				tree.rotation.y = THREE.Math.randFloat( -0.25, 0.25 );
 
-					tree.matrixAutoUpdate = false;
-					tree.updateMatrix();
+				tree.matrixAutoUpdate = false;
+				tree.updateMatrix();
 
-					scene.add( tree );
+				scene.add( tree );
 
-					collidableMeshList.push( tree );
-				}
+				collidableMeshList.push( tree );
 			}
+		}
 	});
 }
 

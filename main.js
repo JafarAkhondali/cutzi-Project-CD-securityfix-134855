@@ -117,6 +117,9 @@ function init() {
 
 
 // User
+	/* To add red riding hood model. Just reactived the commented code below this comment. 
+	And deactived the "cube"-code. Dont remove please!*/
+	
 	/*loader.load( 'http://caro.x15.eu/rotcap.json', function( geometry, materials )
 	{
 		var material = new THREE.MeshLambertMaterial( {color: 0xff0000} );
@@ -125,6 +128,7 @@ function init() {
 		user.position.set(-1500, 0, -1500);
 		scene.add( user );		
 	});*/
+	
 	var cubeSize = 35;
 	var geometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
 	var material = new THREE.MeshLambertMaterial( { color:  'rgb(255,0,0)', emissive: 0x200000, wireframe:false } );
@@ -176,7 +180,7 @@ function init() {
 	scene.add(wall2);
 	collidableMeshList.push(wall2);		
 
-	//Sound 
+//Sound 
 	forestSnd.play();
 }
 
@@ -190,8 +194,8 @@ function onWindowResize() {
 
 
 function animate() {
-	requestAnimationFrame( animate )
-
+	requestAnimationFrame( animate );
+	checkPosition();
 	// rotation item
 	//itemApfel.rotateY(0.05);
 	//itemPilz.rotateY(0.05);
@@ -204,6 +208,17 @@ function animate() {
 
 	update();
 }		
+
+
+function checkPosition(){
+	var x = user.position.x;
+	var z = user.position.z;
+	
+	// Start memory
+	if((x < -1325 && x > -1375) && (z < -1195 && z > -1245)){
+		startMemoryquest();
+	}
+}
 
 // Environment Trees -> now in tree.js
 
