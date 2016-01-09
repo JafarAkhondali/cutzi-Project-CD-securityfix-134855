@@ -53,12 +53,12 @@ animate();
 function init() {
 // Scene
 	scene = new THREE.Scene();
-	//scene.fog = new THREE.FogExp2( backgroundColor, 0.0015 );
+	scene.fog = new THREE.FogExp2( backgroundColor, 0.0015 );
 
 
 // Camera
 	var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
-	var VIEW_ANGLE = 50, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 50, FAR = 20000;
+	var VIEW_ANGLE = 65, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 50, FAR = 20000;
 	camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
 	scene.add(camera);
 	//camera.position.set(0,25,0);
@@ -117,20 +117,21 @@ function init() {
 
 
 // User
-	loader.load( 'http://caro.x15.eu/rotcap.json', function( geometry, materials )
+	/*loader.load( 'http://caro.x15.eu/rotcap.json', function( geometry, materials )
 	{
 		var material = new THREE.MeshLambertMaterial( {color: 0xff0000} );
 		user = new THREE.Mesh( geometry, material );
 		
 		user.position.set(-1500, 0, -1500);
 		scene.add( user );		
-	});
+	});*/
+	var cubeSize = 35;
+	var geometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
+	var material = new THREE.MeshLambertMaterial( { color:  'rgb(255,0,0)', emissive: 0x200000, wireframe:false } );
 
-	//var geometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
-	//var material = new THREE.MeshLambertMaterial( { color:  'rgb(255,0,0)', emissive: 0x200000, wireframe:false } );
-
+	user = new THREE.Mesh( geometry, material);
 	// quest position
-	// user.position.set(1000, cubeSize/2, -1300)
+	user.position.set(1000, cubeSize/2, -1300)
 
 	// origin position
 	//user.position.set(0,cubeSize/2, 0);
@@ -140,6 +141,7 @@ function init() {
 
 	// mushroom position	
 	//user.position.set(-1280, cubeSize/2, -1400);
+	scene.add( user );
 
 
 // Light
@@ -203,182 +205,7 @@ function animate() {
 	update();
 }		
 
-
-function isTreePlacable(x, z){
-	//With this function you can decide in which area shouldn't be trees.
-	// 1. Zeile: 1 = links unten, 2 = rechts unten, 3 = links oben, 4 = rechts oben, 5 = rechts, 6 = links, 7 = vorne, 8 = hinten
-	// 2. Zeile: Fl?che des Quadrats
-	
-	//
-	/*if(((x < 900 && z < -1300 ) || (x < 900 && z > -900) || ( x > 1550 && z < -1300) || ( x > 1550 && z > -900) || ( z > - 900) || ( z < -1300) || (x > 1550 ) || (x < 900))
-		|| ((x < -1700 && x > -1000) && (z < -1700 && z > -1100)) ){
-		return true;
-	}*/
-	
-	if((x < 900 && z < -1300 ) || (x < 900 && z > -900) || ( x > 1550 && z < -1300) || ( x > 1550 && z > -900) || ( z > - 900) || ( z < -1300) || (x > 1550 ) || (x < 900))
-		return true;
-	else if((x < -1700 && x > -1000) && (z < -1700 && z > -1100))
-		return true;
-	else
-		return false;
-}
-
-function placeBounadries(geometry, material, isTree){
-	var tree = null;
-	var start;
-	if (isTree){
-		start = 0;
-	}
-	else{
-		start = 50; 
-	}
-	
-		// 1. Side
-		for(var i = start; i < 4000; i += 100){
-			tree = new THREE.Mesh( geometry, material );
-
-			var s = THREE.Math.randFloat( 30, 40 );
-			tree.scale.set( s, s, s );
-
-			tree.position.set( -1950, 0, i-1950 );
-			tree.rotation.y = THREE.Math.randFloat( -0.25, 0.25 );
-
-			tree.matrixAutoUpdate = false;
-			tree.updateMatrix();
-
-			scene.add( tree );
-
-			collidableMeshList.push( tree );
-		}
-	
-		// 2. Side
-		for(var i = start; i < 4000; i += 100){
-			tree = new THREE.Mesh( geometry, material );
-
-			var s = THREE.Math.randFloat( 30, 40 );
-			tree.scale.set( s, s, s );
-
-			tree.position.set( 1950, 0, i-1950 );
-			tree.rotation.y = THREE.Math.randFloat( -0.25, 0.25 );
-
-			tree.matrixAutoUpdate = false;
-			tree.updateMatrix();
-
-			scene.add( tree );
-
-			collidableMeshList.push( tree );
-		}
-	
-		// 3. Side
-		for(var i = start; i < 4000; i += 100){
-			tree = new THREE.Mesh( geometry, material );
-
-			var s = THREE.Math.randFloat( 30, 40 );
-			tree.scale.set( s, s, s );
-
-			tree.position.set( i-1950, 0, -1950 );
-			tree.rotation.y = THREE.Math.randFloat( -0.25, 0.25 );
-
-			tree.matrixAutoUpdate = false;
-			tree.updateMatrix();
-
-			scene.add( tree );
-
-			collidableMeshList.push( tree );
-		}
-	
-		// 4. Side
-		for(var i = start; i < 4000; i += 100){
-			tree = new THREE.Mesh( geometry, material );
-
-			var s = THREE.Math.randFloat( 30, 40 );
-			tree.scale.set( s, s, s );
-
-			tree.position.set( i-1950, 0, 1950 );
-			tree.rotation.y = THREE.Math.randFloat( -0.25, 0.25 );
-
-			tree.matrixAutoUpdate = false;
-			tree.updateMatrix();
-
-			scene.add( tree );
-
-			collidableMeshList.push( tree );
-		}
-	
-}
-// Environment Trees
-function initTrees() 
-{
-	var tree = null;
-	// init loading
-	loader.load( 'http://caro.x15.eu/appletree.json', function( geometry, materials ) 
-	{					
-		var material = new THREE.MeshLambertMaterial( materials );
-		
-		//place trees as boundaries first
-		placeBounadries(geometry, material, true);
-		
-			for ( var i = 0; i < 200; i ++ ) 
-			{
-				// random placement in a grid
-				var x = Math.floor(Math.random() * 4000 - 2000);
-				var z = Math.floor(Math.random() * 4000 - 2000);
-				// tabalugaQuest auslassen	
-				
-				if ( isTreePlacable(x, z) ) {
-					if ( Math.abs( x ) < 200 && Math.abs( z ) < 200 ) continue;
-
-					tree = new THREE.Mesh( geometry, material );
-
-					var s = THREE.Math.randFloat( 10, 40 );
-					tree.scale.set( s, s, s );
-
-					tree.position.set( x, 0, z );
-					tree.rotation.y = THREE.Math.randFloat( -0.25, 0.25 );
-
-					tree.matrixAutoUpdate = false;
-					tree.updateMatrix();
-
-					scene.add( tree );
-
-					collidableMeshList.push( tree );
-				}
-				
-			}
-	});
-	loader.load( 'http://caro.x15.eu/baum.json', function( geometry, materials ) 
-	{					
-		var material = new THREE.MeshLambertMaterial( materials );
-		
-		//place trees as boundaries first
-		placeBounadries(geometry, material, false); //false, because it's a fir not a tree.
-			for ( var i = 0; i < 200; i ++ ) 
-			{
-				// random placement in a grid
-				var x = Math.random() * 4000 - 2000;
-				var z = Math.random() * 4000 - 2000;
-				if ( isTreePlacable(x, z) )  {
-					//placeFir(x, z, tree);
-					if ( Math.abs( x ) < 200 && Math.abs( z ) < 200 ) continue;
-
-					tree = new THREE.Mesh( geometry, material );
-
-					var s = THREE.Math.randFloat( 10, 20 );
-					tree.scale.set( s, s, s );
-
-					tree.position.set( x, 0, z );
-					tree.rotation.y = THREE.Math.randFloat( -0.25, 0.25 );
-
-					tree.matrixAutoUpdate = false;
-					tree.updateMatrix();
-
-					scene.add( tree );
-
-					collidableMeshList.push( tree );
-				}
-			}
-	});
-}
+// Environment Trees -> now in tree.js
 
 
 // Environment Flowers
