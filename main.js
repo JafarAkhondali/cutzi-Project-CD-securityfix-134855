@@ -117,21 +117,26 @@ function init() {
 
 
 // User
-	/*loader.load( 'http://caro.x15.eu/rotcap.json', function( geometry, materials )
-	{
-		var material = new THREE.MeshLambertMaterial( {color: 0xff0000} );
-		user = new THREE.Mesh( geometry, material );
-		
-		user.position.set(-1500, 0, -1500);
-		scene.add( user );		
-	});*/
+
+loader.load(
+	// resource URL
+	'models/rotcap3.json', addUser);
+	// Function when resource is loaded
+	function addUser ( geometry, materials ) {
+		var material = new THREE.MeshFaceMaterial (materials);
+		user = new THREE.Mesh(geometry, material);
+		//model.scale.set (-10,-20,0);
+		//model.position.set (-10,-20,0)
+		scene.add(user);
+	}
 	var cubeSize = 35;
-	var geometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
-	var material = new THREE.MeshLambertMaterial( { color:  'rgb(255,0,0)', emissive: 0x200000, wireframe:false } );
+	//var geometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
+	//var material = new THREE.MeshLambertMaterial( { color:  'rgb(255,0,0)', emissive: 0x200000, wireframe:false } );
 
 	user = new THREE.Mesh( geometry, material);
 	// quest position
-	user.position.set(1000, cubeSize/2, -1300)
+	// user.position.set(1000, cubeSize/2, -1300)
+	user.position.set(-1500, cubeSize/2, -1500)
 
 	// origin position
 	//user.position.set(0,cubeSize/2, 0);
@@ -141,7 +146,7 @@ function init() {
 
 	// mushroom position	
 	//user.position.set(-1280, cubeSize/2, -1400);
-	scene.add( user );
+	scene.add( user )
 
 
 // Light
