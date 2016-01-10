@@ -5,7 +5,7 @@ function initTrees()
 	// init loading
 	loader.load( 'http://caro.x15.eu/appletree.json', function( geometry, materials ) 
 	{					
-		var material = new THREE.MeshLambertMaterial( materials );
+		var material = new THREE.MeshFaceMaterial (materials);
 		
 		//place trees as boundaries first
 		placeBounadries(geometry, material, true);
@@ -40,7 +40,7 @@ function initTrees()
 	});
 	loader.load( 'http://caro.x15.eu/baum.json', function( geometry, materials ) 
 	{					
-		var material = new THREE.MeshLambertMaterial( materials );
+		var material = new THREE.MeshFaceMaterial (materials);
 		
 		//place trees as boundaries first
 		placeBounadries(geometry, material, false); //false, because it's a fir not a tree.

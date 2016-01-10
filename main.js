@@ -118,35 +118,61 @@ function init() {
 
 // User
 
-loader.load(
-	// resource URL
-	'models/rotcap3.json', addUser);
-	// Function when resource is loaded
-	function addUser ( geometry, materials ) {
+	rotcap = new THREE.JSONLoader();
+	rotcap.load('http://caro.x15.eu/rotcap3.json', addUser);
+			function addUser ( geometry, materials ) {
+				var material = new THREE.MeshFaceMaterial (materials);
+				user = new THREE.Mesh(geometry, material);
+				//model.scale.set (-10,-20,0);
+				//model.position.set (-10,-20,0)
+				scene.add(user);
+		}
+		var cubeSize = 35;
+		//var geometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
+		//var material = new THREE.MeshLambertMaterial( { color:  'rgb(255,0,0)', emissive: 0x200000, wireframe:false } );
+
+		user = new THREE.Mesh( geometry, material);
+		// quest position
+		// user.position.set(1000, cubeSize/2, -1300)
+		user.position.set(-1500, cubeSize/2, -1500)
+
+		// origin position
+		//user.position.set(0,cubeSize/2, 0);
+		
+		// apple position
+		//user.position.set(1100, cubeSize/2, 1760);
+
+		// mushroom position	
+		//user.position.set(-1280, cubeSize/2, -1400);
+		//scene.add( user );
+		
+	loader.load( 'http://caro.x15.eu/qbaum.json', function( geometry, materials ) 
+	{
+		
 		var material = new THREE.MeshFaceMaterial (materials);
-		user = new THREE.Mesh(geometry, material);
-		//model.scale.set (-10,-20,0);
-		//model.position.set (-10,-20,0)
-		scene.add(user);
-	}
-	var cubeSize = 35;
-	//var geometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
-	//var material = new THREE.MeshLambertMaterial( { color:  'rgb(255,0,0)', emissive: 0x200000, wireframe:false } );
+		qbaum = new THREE.Mesh( geometry, material );
+		qbaum.scale.set( 20, 20, 20 );
+		qbaum.position.set( -400, 0, -200 );
+		scene.add( qbaum );
+	});
 
-	user = new THREE.Mesh( geometry, material);
-	// quest position
-	// user.position.set(1000, cubeSize/2, -1300)
-	user.position.set(-1500, cubeSize/2, -1500)
+	loader.load( 'http://caro.x15.eu/haus-1.json', function( geometry, materials ) 
+	{
+		var material = new THREE.MeshFaceMaterial (materials);
+		haus = new THREE.Mesh( geometry, material );
+		haus.scale.set( 20, 20, 20 );
+		haus.position.set( -1400, 0, -200 );
+		scene.add( haus );
+	});
 
-	// origin position
-	//user.position.set(0,cubeSize/2, 0);
-	
-	// apple position
-	//user.position.set(1100, cubeSize/2, 1760);
-
-	// mushroom position	
-	//user.position.set(-1280, cubeSize/2, -1400);
-	scene.add( user )
+	loader.load( 'http://caro.x15.eu/wolf4.json', function( geometry, materials ) 
+	{
+		var material = new THREE.MeshFaceMaterial (materials);
+		wolf = new THREE.Mesh( geometry, material );
+		wolf.scale.set( 20, 20, 20 );
+		wolf.position.set( -1400, 0, -300 );
+		scene.add( wolf );
+	});
 
 
 // Light
