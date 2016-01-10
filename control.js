@@ -5,7 +5,7 @@
 		var rotateAngle = Math.PI / 2 * delta;   // pi/2 radians (90 degrees) per second
 		
 		vertexIndex = collisionDetection();
-
+		
 	// move forwards/backwards/left/right
 		if (questTrue == true )
 		{	
@@ -21,7 +21,11 @@
 				user.position.y+50,
 				user.position.z)
 			);
-		} else {
+		} 
+		else if(memoryQuestActive){
+			
+		}
+		else {
 			if ( keyboard.pressed('up') && vertexIndex != 4 && vertexIndex != 6 && vertexIndex != 1 && vertexIndex != 3 ){
 				stepSnd.play();
 				user.translateZ( -step );
@@ -59,6 +63,12 @@
 			camera.position.z = cameraOffset.z;
 			camera.lookAt(user.position);
 		};
+		
+		
+		
+		if(memoryQuestActive){
+			startMemoryquest();
+		}
 
 		checkItem();
 		//if (itemCounter == 3) 
