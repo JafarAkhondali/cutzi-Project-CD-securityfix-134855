@@ -131,14 +131,13 @@ function createSelectionCube(){
 
 function startMemoryquest(){
 	
-	
-	if(!memoryQuestActive){
+	if(!memoryQuestActive && questNotDone){
 		console.log("memoryquest start");
 		memoryQuestActive = true;
 		createSelectionCube();
 		
 		//align camera
-		var newDir = new THREE.Vector3(-1, 0, 0);
+		var newDir = new THREE.Vector3(0, 0, 0);
 		var pos = new THREE.Vector3();
 		
 		pos.addVectors(newDir, user.position);
@@ -180,13 +179,16 @@ function checkShroom() {
 		if(prevState != null) {
 			//Compare
 			if(prevState == true) {
-				console.log("Glueckwunsch!");
-				var info = document.getElementById('info');
-				info.innerHTML = "Glueckwunsch! Du hast beide Steinpilze gefunden.";
+				console.log("Memoryquest successful solved!");
 				questNotDone = false;
-				
-				//End quest here
-				// getBackToNormalMode();
+				memoryQuestActive = false;
+				clearTextMessage();
+				appendTextMessage('Yay, du hast das Memory gelöst.');
+				setTimeout(
+						function() {
+							clearTextMessage();
+						}
+					, 5000);
 			}
 			else {
 				prevState = null;

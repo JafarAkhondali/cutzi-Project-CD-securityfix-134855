@@ -211,6 +211,14 @@ function init() {
 	forestSnd.play();
 }
 
+function checkPosition(){
+	var x = user.position.x;
+	var z = user.position.z;
+	
+	if((x < -1325 && x > - 1375) && (z > -1245 && z < -1195)){
+		startMemoryquest();
+	}
+}
 
 function onWindowResize() {
 	camera.aspect = window.innerWidth / window.innerHeight;
@@ -228,7 +236,8 @@ function animate() {
 	//itemPilz.rotateY(0.05);
 	//itemPilz.rotateZ(0.005);
 	//itemBlume.rotateY(0.05);
-
+	checkPosition();
+	
 	particleGroup.tick()
 	// render-update
 	renderer.render( scene, camera );
