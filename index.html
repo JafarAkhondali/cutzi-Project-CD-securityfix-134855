@@ -16,6 +16,14 @@
 				font-family:verdana;
 				position: absolute;
 			}
+			
+			#timer {
+				color: white;
+				font-size: 100%;
+				font-family: verdana;
+				position: absolute;
+				top: 25%;
+			}
 
 			#message {
 				color: red;
@@ -41,15 +49,13 @@
 	</head>
 	<body>
 		<div id="hud">Red Riding Hood <br> 100 HP <br> 0/3 Items</div>
-		
+		<div id="timer"> Nacht in: <b id="cID3">   Init<script>countdown(300,'cID3');</script></b></div>
 		<div id="control-info">
-			Nacht in: <b id="cID3">   Init<script>countdown(300,'cID3');</script></b><br>
 			Steuerung:
 			<ul>
 			<li>Up/Down arrow: Vor/Zurück
 			<li>Left/Right arrow: Links/Rechts
-			</ul>
-			
+			</ul>	
 		</div>
 
 		<div id="message"> </div>
