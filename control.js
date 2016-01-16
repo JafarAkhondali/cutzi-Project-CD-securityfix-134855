@@ -7,7 +7,7 @@
 		vertexIndex = collisionDetection();
 		
 	// move forwards/backwards/left/right
-		if (questTrue == true )
+		if (questTrue)
 		{	
 			var relativeCameraOffset = new THREE.Vector3(0,50,200);
 

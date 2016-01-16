@@ -106,7 +106,7 @@ function init() {
 	//new begin
 	var vertices = planeGeo.attributes.position.array;
 	for( var i = -1; i < vertices.length; i += 3) {
-		vertices[i] = Math.random() * (3 - 1) + 1;
+		vertices[i] = Math.random() * (5 - 1) + 1;
 	}
 	planeGeo.computeVertexNormals();
 	//new end			
@@ -130,6 +130,7 @@ function init() {
 		}
 		
 		var geometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
+		//Change opacity to 0.0 to make cube invisible
 		var material = new THREE.MeshBasicMaterial({color:0xEEE9E9, transparent:true, opacity:0.1, side: THREE.DoubleSide});
 
 		userHitbox = new THREE.Mesh( geometry, material);
