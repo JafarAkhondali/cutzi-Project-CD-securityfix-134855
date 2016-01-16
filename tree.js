@@ -76,22 +76,20 @@ function initTrees()
 
 function isTreePlacable(x, z){
 	/* With this function you can decide in which area shouldn't be trees.
-		1. Zeile: 1 = links unten, 2 = rechts unten, 3 = links oben, 4 = rechts oben, 5 = rechts, 6 = links, 7 = vorne, 8 = hinten
-		2. Zeile: Fl?che des Quadrats
-	*/
+		Pattern: if((x < highest && x > lowest) && (z > lowest && z < highest))
+	*/	
 	
-	/*if(((x < 900 && z < -1300 ) || (x < 900 && z > -900) || ( x > 1550 && z < -1300) || ( x > 1550 && z > -900) || ( z > - 900) || ( z < -1300) || (x > 1550 ) || (x < 900))
-		|| ((x < -1700 && x > -1000) && (z < -1700 && z > -1100)) ){
-		return true;
-	}*/
-	
-	// IMO works not correctly. Rework needed.
-	if((x < 900 && z < -1300 ) || (x < 900 && z > -900) || ( x > 1550 && z < -1300) || ( x > 1550 && z > -900) || ( z > - 900) || ( z < -1300) || (x > 1550 ) || (x < 900))
-		return true;
-	else if((x < -1700 && x > -1000) && (z < -1700 && z > -1100))
-		return true;
-	else
+	// For TabalugaQuest, no trees here
+	if((x < 1550 && x > 700) && (z > -1300 && z < -900))
 		return false;
+	
+	// For MemoryQuest, no trees here	
+	if((x < -1000 && x > -1700) && (z > -1700 && z < -1100))
+		return false;
+	
+	// Tree is placeable, so return true
+	else
+		return true;
 }
 
 function placeBounadries(geometry, material, isTree){
