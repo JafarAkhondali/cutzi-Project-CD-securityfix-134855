@@ -11,15 +11,15 @@
 		{	
 			var relativeCameraOffset = new THREE.Vector3(0,50,200);
 
-			var cameraOffset = relativeCameraOffset.applyMatrix4( user.matrixWorld );
+			var cameraOffset = relativeCameraOffset.applyMatrix4( userHitbox.matrixWorld );
 
 			camera.position.x = cameraOffset.x;
 			camera.position.y = cameraOffset.y+150;
 			camera.position.z = cameraOffset.z;
 			camera.lookAt(new THREE.Vector3(
-				user.position.x,
-				user.position.y+50,
-				user.position.z)
+				userHitbox.position.x,
+				userHitbox.position.y+50,
+				userHitbox.position.z)
 			);
 		} 
 		else if(memoryQuestActive){
@@ -28,14 +28,14 @@
 		else {
 			if ( keyboard.pressed('up') && vertexIndex != 4 && vertexIndex != 6 && vertexIndex != 1 && vertexIndex != 3 ){
 				stepSnd.play();
-				user.translateZ( -step );
+				userHitbox.translateZ( -step );
 			}
 			else if(!keyboard.pressed('down')){
 				stepSnd.pause();
 			}
 			if ( keyboard.pressed('down') && vertexIndex != 0 && vertexIndex != 2 && vertexIndex != 5 && vertexIndex != 7 ){
 				stepSnd.play();
-				user.translateZ(  step );
+				userHitbox.translateZ(  step );
 			}
 			else if(!keyboard.pressed('up')){
 				stepSnd.pause();
@@ -43,16 +43,21 @@
 			
 			// rotate left/right/up/down
 			var rotation_matrix = new THREE.Matrix4().identity();
-			if ( keyboard.pressed('left')  && vertexIndex != 4 && vertexIndex != 5 && vertexIndex != 6 && vertexIndex != 7 )
+			if ( keyboard.pressed('left')  && vertexIndex != 4 && vertexIndex != 5 && vertexIndex != 6 && vertexIndex != 7 ){
+				userHitbox.rotateOnAxis( new THREE.Vector3(0,1,0), rotateAngle);
 				user.rotateOnAxis( new THREE.Vector3(0,1,0), rotateAngle);
-			if ( keyboard.pressed('right') && vertexIndex != 1 && vertexIndex != 3 && vertexIndex != 0 && vertexIndex != 2 )
+			}
+			if ( keyboard.pressed('right') && vertexIndex != 1 && vertexIndex != 3 && vertexIndex != 0 && vertexIndex != 2 ){
+				userHitbox.rotateOnAxis( new THREE.Vector3(0,1,0), -rotateAngle);
 				user.rotateOnAxis( new THREE.Vector3(0,1,0), -rotateAngle);
+			}
 
 			if ( keyboard.pressed('ctrl') )
 			{
 				console.log(user.position.x + ", " + user.position.y + ", " + user.position.z );
 			}
-
+			user.position.x = userHitbox.position.x;
+			user.position.z = userHitbox.position.z;
 			//camera settings
 			var relativeCameraOffset = new THREE.Vector3(0,50,200);
 
@@ -78,17 +83,17 @@
 // Kollisionserkennung; 
 	function collisionDetection(){
 		// Cube Position in originPoint kopiert
-		var originPoint = user.position.clone();
+		var originPoint = userHitbox.position.clone();
 
 		// for-schleife für alle Eckpunkte, die Kollisionen hervorrufen können
-		for (var vertexIndex = 0; vertexIndex < user.geometry.vertices.length; vertexIndex++)
+		for (var vertexIndex = 0; vertexIndex < userHitbox.geometry.vertices.length; vertexIndex++)
 		{
 			// aktueller Punkt, (0 bis 7) --> Array der Eckpunkte, in Variable kopieren
-			var localVertex = user.geometry.vertices[vertexIndex].clone();
+			var localVertex = userHitbox.geometry.vertices[vertexIndex].clone();
 			// 
-			var globalVertex = localVertex.applyMatrix4( user.matrix );
+			var globalVertex = localVertex.applyMatrix4( userHitbox.matrix );
 			// Richtungsvektor, dessen Position
-			var directionVector = globalVertex.sub( user.position );
+			var directionVector = globalVertex.sub( userHitbox.position );
 			
 			// origin Point und normalisierter Richtungsvektor des Cubes
 			var ray = new THREE.Raycaster( originPoint, directionVector.clone().normalize() );

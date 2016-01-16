@@ -16,7 +16,7 @@ var collidableMeshList = [];
 // init
 var blumen = []; // random
 var cube, itemApfel, itemPilz, itemBlume, tabaluga, field;
-var user;
+var user, userHitbox;
 var loader = new THREE.JSONLoader();
 
 // items-help
@@ -117,7 +117,7 @@ function init() {
 
 
 // User
-
+	var cubeSize = 35;
 	rotcap = new THREE.JSONLoader();
 	rotcap.load('http://caro.x15.eu/rotcap3.json', addUser);
 			function addUser ( geometry, materials ) {
@@ -125,16 +125,17 @@ function init() {
 				user = new THREE.Mesh(geometry, material);
 				//model.scale.set (-10,-20,0);
 				//model.position.set (-10,-20,0)
+				user.position.set(0, 1, 0);
 				scene.add(user);
 		}
-		var cubeSize = 35;
-		//var geometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
-		//var material = new THREE.MeshLambertMaterial( { color:  'rgb(255,0,0)', emissive: 0x200000, wireframe:false } );
+		
+		var geometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
+		var material = new THREE.MeshBasicMaterial({color:0xEEE9E9, transparent:true, opacity:0.1, side: THREE.DoubleSide});
 
-		user = new THREE.Mesh( geometry, material);
+		userHitbox = new THREE.Mesh( geometry, material);
 		// quest position
 		// user.position.set(1000, cubeSize/2, -1300)
-		user.position.set(-1500, cubeSize/2, -1500)
+		userHitbox.position.set(0, cubeSize/2, 0);
 
 		// origin position
 		//user.position.set(0,cubeSize/2, 0);
@@ -144,7 +145,8 @@ function init() {
 
 		// mushroom position	
 		//user.position.set(-1280, cubeSize/2, -1400);
-		//scene.add( user );
+		scene.add( userHitbox );
+		console.log("added userhitbox to scene");
 		
 	loader.load( 'http://caro.x15.eu/qbaum.json', function( geometry, materials ) 
 	{
