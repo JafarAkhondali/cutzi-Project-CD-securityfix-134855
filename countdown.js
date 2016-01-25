@@ -44,7 +44,10 @@ function countdown(time,id){
     //wenn die Zeit um ist.
 	timeexpired = true;
     strZeit = "Zeit ist abgelaufen";
+	switchToEndstate();
   }
   // Ausgabestring in Tag mit id="id" schreiben
   document.getElementById(id).innerHTML = strZeit;
+  
+
 }

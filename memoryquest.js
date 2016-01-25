@@ -208,6 +208,9 @@ function checkShroom() {
 				/*hp -= 10;
 				var hpHUD = document.getElementById("hp");
 				hpHUD.innerHTML = hp + " HP";*/
+				hpCounter -= 10;
+				clearTextHud();
+				appendTextHud();
 				errorSnd.play();
 			}
 				prevState = null;

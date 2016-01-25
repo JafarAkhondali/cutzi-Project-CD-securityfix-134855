@@ -23,8 +23,17 @@
 			);
 		} 
 		else if(memoryQuestActive){
-			
+			startMemoryquest();
 		}
+		
+		else if(isInEndstate()){
+			if (keyboard.pressed('r')) {
+			// R - restart game
+				console.log("Restarting the game...");
+				location.reload();
+			}
+		}
+		
 		else {
 			if ( keyboard.pressed('up') && vertexIndex != 4 && vertexIndex != 6 && vertexIndex != 1 && vertexIndex != 3 ){
 				stepSnd.play();
@@ -69,11 +78,13 @@
 			camera.lookAt(user.position);
 		};
 		
-		
-		
-		if(memoryQuestActive){
-			startMemoryquest();
+		if(hpCounter <= 0){
+			switchToEndstate();
 		}
+		
+		/*if(memoryQuestActive){
+			startMemoryquest();
+		}*/
 
 		checkItem();
 		//if (itemCounter == 3) 
