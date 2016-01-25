@@ -25,6 +25,24 @@
 		else if(memoryQuestActive){
 			startMemoryquest();
 		}
+		else if(apfelbaumQuestActive){
+			if(keyboard.pressed('left')){			
+				if(lastWasLeft){
+					keyboardCounter++;
+					console.log("right");
+					lastWasLeft = false;
+				}
+			}
+			if(keyboard.pressed('right')){
+				if(!lastWasLeft){
+					keyboardCounter++;
+					console.log("left");
+					lastWasLeft = true;
+				}
+				
+			}
+			checkAQ();
+		}
 		
 		else if(isInEndstate()){
 			if (keyboard.pressed('r')) {
@@ -53,12 +71,12 @@
 			// rotate left/right/up/down
 			var rotation_matrix = new THREE.Matrix4().identity();
 			if ( keyboard.pressed('left')  && vertexIndex != 4 && vertexIndex != 5 && vertexIndex != 6 && vertexIndex != 7 ){
-				userHitbox.rotateOnAxis( new THREE.Vector3(0,1,0), rotateAngle);
-				user.rotateOnAxis( new THREE.Vector3(0,1,0), rotateAngle);
+					userHitbox.rotateOnAxis( new THREE.Vector3(0,1,0), rotateAngle);
+					user.rotateOnAxis( new THREE.Vector3(0,1,0), rotateAngle);
 			}
 			if ( keyboard.pressed('right') && vertexIndex != 1 && vertexIndex != 3 && vertexIndex != 0 && vertexIndex != 2 ){
-				userHitbox.rotateOnAxis( new THREE.Vector3(0,1,0), -rotateAngle);
-				user.rotateOnAxis( new THREE.Vector3(0,1,0), -rotateAngle);
+					userHitbox.rotateOnAxis( new THREE.Vector3(0,1,0), -rotateAngle);
+					user.rotateOnAxis( new THREE.Vector3(0,1,0), -rotateAngle);
 			}
 
 			if ( keyboard.pressed('ctrl') )

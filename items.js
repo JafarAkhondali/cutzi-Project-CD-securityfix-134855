@@ -4,7 +4,7 @@
 		var area = 10;
 		//var vertexIndex = itemDetection();
 		
-		if ( apfelGet == false ) {
+		if ( apfelGet == false && apfelVisible) {
 			//if (!!itemApfel) {
 				itemApfelX = itemApfel.position.x;
 				itemApfelZ = itemApfel.position.z;

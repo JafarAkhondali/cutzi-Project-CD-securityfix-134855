@@ -283,9 +283,12 @@ checkField = function(event) {
 					if (cookie == 14) {
 						//quest finished
 						questFinish = true;
+						itemCounter++;
 						scene.add(way15)
 						clearTextMessage();
-						appendTextMessage('Gewonnen! Drücke [R] um fortzufahren!');
+						appendTextMessage('Gewonnen! Dafür erhälst du einen Wein für deinen Korb! <br> Drücke [R] um fortzufahren!');
+						
+						
 					};
 					cookie = cookie + 1;
 				} else {

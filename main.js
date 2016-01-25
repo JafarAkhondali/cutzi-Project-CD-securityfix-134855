@@ -26,7 +26,7 @@ var blumenGet = false;
 var itemApfelX, itemApfelZ, itemPilzX, itemPilzZ, itemBlumeX, itemBlumeZ;
 
 //visible
-var pilzVisible = false;
+var pilzVisible = false, apfelVisible = false;
 
 // tabaQuest
 var way, way2, way3, way4, way5, way6, way7, way8, way9, way10, way11, way12, way13, way14, way15 ;
@@ -50,6 +50,7 @@ initBlumen();
 initItems();
 initTabalugaQuest();
 initMemoryquest();
+initApfelbaumQuest();
 animate();
 
 
@@ -157,8 +158,8 @@ function init() {
 		
 		var material = new THREE.MeshFaceMaterial (materials);
 		qbaum = new THREE.Mesh( geometry, material );
-		qbaum.scale.set( 20, 20, 20 );
-		qbaum.position.set( -400, 0, -200 );
+		qbaum.scale.set( 30, 30, 30 );
+		qbaum.position.set( 1450, 0, 1350 );
 		scene.add( qbaum );
 	});
 
@@ -166,19 +167,19 @@ function init() {
 	{
 		var material = new THREE.MeshFaceMaterial (materials);
 		haus = new THREE.Mesh( geometry, material );
-		haus.scale.set( 20, 20, 20 );
+		haus.scale.set( 50, 50, 50 );
 		haus.position.set( -1400, 0, -200 );
 		scene.add( haus );
 	});
 
-	loader.load( 'http://caro.x15.eu/wolf4.json', function( geometry, materials ) 
+	/*loader.load( 'http://caro.x15.eu/wolf4.json', function( geometry, materials ) 
 	{
 		var material = new THREE.MeshFaceMaterial (materials);
 		wolf = new THREE.Mesh( geometry, material );
 		wolf.scale.set( 20, 20, 20 );
 		wolf.position.set( -1400, 0, -300 );
 		scene.add( wolf );
-	});
+	});*/
 
 
 // Light
@@ -223,6 +224,10 @@ function checkPosition(){
 	
 	if((x < -1325 && x > - 1375) && (z > -1245 && z < -1195)){
 		startMemoryquest();
+	}
+	
+	if((x < 1470 && x > 1420) && (z > 1238 && z < 1288) && !questDone){
+		startApfelbaumQuest();
 	}
 }
 
@@ -302,20 +307,34 @@ function initPilz(){
 	});
 }
 
-
-// Items
-function initItems()
-{
-	// item Apfel
+function initApfel(){
+	apfelVisible = true;
 	loader.load( 'http://caro.x15.eu/apple.json', function( geometry, materials )
 	{
 		var material = new THREE.MeshLambertMaterial( {color: 0xff0000} );
 		itemApfel = new THREE.Mesh( geometry, material );
 		var s = 10;
 		itemApfel.scale.set( s, s, s );
-		itemApfel.position.set(1120, 50, 1800);
+		itemApfel.position.set(1386, 15, 1346);
 		scene.add( itemApfel );
 	});
+}
+
+
+// Items
+function initItems()
+{
+	// item Apfel
+	//initApfel();
+	/*loader.load( 'http://caro.x15.eu/apple.json', function( geometry, materials )
+	{
+		var material = new THREE.MeshLambertMaterial( {color: 0xff0000} );
+		itemApfel = new THREE.Mesh( geometry, material );
+		var s = 10;
+		itemApfel.scale.set( s, s, s );
+		itemApfel.position.set(1386, 15, 1346);
+		scene.add( itemApfel );
+	});*/
 	//var material = new THREE.MeshLambertMaterial( { color: 'rgb(255,0,0)', emissive: 0x200000 } );
 	// var material2 = new THREE.MeshBasicMaterial( { color: 0x0000ff, wireframe:true } );
 	// itemApfel = new THREE.Mesh( geometry2, material2);
