@@ -184,6 +184,7 @@ function checkShroom() {
 				memoryQuestActive = false;
 				clearTextMessage();
 				appendTextMessage('Yay, du hast das Memory gelöst.');
+				initPilz();
 				setTimeout(
 						function() {
 							clearTextMessage();

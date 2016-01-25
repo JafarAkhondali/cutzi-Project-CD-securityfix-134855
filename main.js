@@ -25,6 +25,9 @@ var pilzGet = false;
 var blumenGet = false;
 var itemApfelX, itemApfelZ, itemPilzX, itemPilzZ, itemBlumeX, itemBlumeZ;
 
+//visible
+var pilzVisible = false;
+
 // tabaQuest
 var way, way2, way3, way4, way5, way6, way7, way8, way9, way10, way11, way12, way13, way14, way15 ;
 var dir = [87, 68, 87, 68, 87, 87, 65, 87, 87, 68, 68, 87, 87, 68, 87];
@@ -285,6 +288,20 @@ function initBlumen()
 	});
 }
 
+function initPilz(){
+	//console.log("initing pilz");
+	pilzVisible = true;
+	loader.load( 'http://caro.x15.eu/pilz.json', function( geometry, materials ) 
+	{
+		var s = 10;
+		var material = new THREE.MeshLambertMaterial( {color: 0x00ff00} );
+		itemPilz = new THREE.Mesh( geometry, material );
+		itemPilz.scale.set( s, s, s );
+		itemPilz.position.set( -1320, 10, -1380 );
+		scene.add( itemPilz );
+	});
+}
+
 
 // Items
 function initItems()
@@ -307,7 +324,7 @@ function initItems()
 	// itemList.push(itemApfel);
 
 	// item Pilz
-	loader.load( 'http://caro.x15.eu/pilz.json', function( geometry, materials ) 
+	/*loader.load( 'http://caro.x15.eu/pilz.json', function( geometry, materials ) 
 	{
 		var s = 10;
 		var material = new THREE.MeshLambertMaterial( {color: 0x00ff00} );
@@ -315,7 +332,8 @@ function initItems()
 		itemPilz.scale.set( s, s, s );
 		itemPilz.position.set( -1320, 10, -1380 );
 		scene.add( itemPilz );
-	});
+	});*/
+	//initPilz();
 
 
 	// item Blume

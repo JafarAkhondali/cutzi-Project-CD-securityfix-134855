@@ -70,12 +70,12 @@
 			//camera settings
 			var relativeCameraOffset = new THREE.Vector3(0,50,200);
 
-			var cameraOffset = relativeCameraOffset.applyMatrix4( user.matrixWorld );
+			var cameraOffset = relativeCameraOffset.applyMatrix4( userHitbox.matrixWorld );
 
 			camera.position.x = cameraOffset.x;
 			camera.position.y = cameraOffset.y;
 			camera.position.z = cameraOffset.z;
-			camera.lookAt(user.position);
+			camera.lookAt(userHitbox.position);
 		};
 		
 		if(hpCounter <= 0){
@@ -123,12 +123,12 @@
 	function cameraUpdate(){
 		var relativeCameraOffset = new THREE.Vector3(0,50,200);
 
-		var cameraOffset = relativeCameraOffset.applyMatrix4( user.matrixWorld );
+		var cameraOffset = relativeCameraOffset.applyMatrix4( userHitbox.matrixWorld );
 
 		camera.position.x = cameraOffset.x;
 		camera.position.y = cameraOffset.y;
 		camera.position.z = cameraOffset.z;
-		camera.lookAt( user.position );
+		camera.lookAt( userHitbox.position );
 	}
 
 

@@ -10,7 +10,7 @@ function checkQuest() {
 		var pos = new THREE.Vector3();
 		if (questFinish == false ) {
 			//check user position
-			if ( user.position.x <= (tabPosX+area) && user.position.x >= (tabPosX-area) && user.position.z <= (tabPosZ+area) && user.position.z >= (tabPosZ-area)) {
+			if ( userHitbox.position.x <= (tabPosX+area) && userHitbox.position.x >= (tabPosX-area) && userHitbox.position.z <= (tabPosZ+area) && userHitbox.position.z >= (tabPosZ-area)) {
 				//init quest
 				addField();
 				game_status = 1;
@@ -19,11 +19,19 @@ function checkQuest() {
 				var visibleFields = initWay();
 				questTrue = true;
 
+				pos.addVectors(newDir, userHitbox.position);
+				userHitbox.lookAt(pos);
+
+				userHitbox.position.setX(1000);
+				userHitbox.position.setZ(-1200);
+				
 				pos.addVectors(newDir, user.position);
 				user.lookAt(pos);
 
 				user.position.setX(1000);
 				user.position.setZ(-1200);
+				
+				
 
 				
 				// 8s waitingtime to start quest. after first round no waittime
@@ -259,14 +267,18 @@ checkField = function(event) {
 					console.log(arrWay.length);
 					//next positon correct
 					if (event.keyCode == 87) {
+						userHitbox.translateZ(-50);
 						user.translateZ(-50);
 					} else if (event.keyCode == 68){
+						userHitbox.translateX(50);
 						user.translateX(50);
 					} else if (event.keyCode == 65){
+						userHitbox.translateX(-50);
 						user.translateX(-50);
 					}
 					addWay();
 					/* .... bis 14 */
+					
 					
 					if (cookie == 14) {
 						//quest finished

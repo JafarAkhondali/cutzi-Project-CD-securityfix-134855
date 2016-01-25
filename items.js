@@ -25,7 +25,7 @@
 			//}
 		} 
 		// Pilz aufsammeln
-		if ( pilzGet == false ) {
+		if ( !pilzGet && pilzVisible) {
 			//if (!!itemPilz) {
 				itemPilzX = itemPilz.position.x;
 				itemPilzZ = itemPilz.position.z;
