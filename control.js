@@ -29,7 +29,7 @@
 		else if(isInEndstate()){
 			if (keyboard.pressed('r')) {
 			// R - restart game
-				console.log("Restarting the game...");
+				console.log("Reloading page...");
 				location.reload();
 			}
 		}

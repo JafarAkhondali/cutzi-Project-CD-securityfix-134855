@@ -285,7 +285,7 @@ checkField = function(event) {
 						questFinish = true;
 						scene.add(way15)
 						clearTextMessage();
-						appendTextMessage('You won! Now try to make some money or press "r" to resume to the open world.');
+						appendTextMessage('Gewonnen! Drücke [R] um fortzufahren!');
 					};
 					cookie = cookie + 1;
 				} else {
@@ -295,7 +295,7 @@ checkField = function(event) {
 					clearTextHud();
 					appendTextHud();
 					clearTextMessage();
-					appendTextMessage('Game over! Press "r" to resume to the open world.');
+					appendTextMessage('Verloren! Mit [R] kannst du dich wieder frei bewegen.');
 				};
 			};
 		}

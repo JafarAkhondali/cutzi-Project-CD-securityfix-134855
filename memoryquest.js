@@ -133,6 +133,15 @@ function startMemoryquest(){
 	
 	if(!memoryQuestActive && questNotDone){
 		console.log("memoryquest start");
+		
+		clearTextMessage();
+		appendTextMessage('Finde die beiden Steinpilze! Mit [Enter] deckst du auf.');
+		setTimeout(
+			function() {
+				clearTextMessage();
+			}
+		, 5000);
+		
 		memoryQuestActive = true;
 		createSelectionCube();
 		

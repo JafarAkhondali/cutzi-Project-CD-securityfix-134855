@@ -27,7 +27,8 @@
 		console.log(game_status);
 		if (game_status == 1 || questTrue == true){
 			document.getElementById('control-info').innerHTML += 'Steuerung:<ul> <li> W: Vor <li> A/D: Links/Rechts	<li>R: Exit	</ul>';
-		} else {
+		} 
+		else {
 			document.getElementById('control-info').innerHTML += 'Steuerung:<ul> <li> Up/Down arrow: Vor/Zurück <li> Left/Right arrow: Links/Rechts	</ul>'
 		}	
 	}
