@@ -73,7 +73,7 @@ function onDocumentKeyDown( event ){
 	if(memoryQuestActive){
 	if( keyCode == 38){
 		if( cursorPointingAt != 0 && cursorPointingAt != 1 && cursorPointingAt != 2 ) {
-			mesh.translateZ(-(units-5));
+			mesh.translateZ(-(units));
 			cursorPointingAt -= 3;
 		}
 		//camera.translateZ( -units );
@@ -82,7 +82,7 @@ function onDocumentKeyDown( event ){
 		//down
 		if( keyCode == 40 ){
 			if( cursorPointingAt != 6 && cursorPointingAt != 7 && cursorPointingAt != 8 ){
-				mesh.translateZ(units-5);
+				mesh.translateZ(units);
 				cursorPointingAt += 3;
 			}
 			//camera.translateZ( units );
