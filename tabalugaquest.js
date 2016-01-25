@@ -287,6 +287,7 @@ checkField = function(event) {
 						scene.add(way15)
 						clearTextMessage();
 						appendTextMessage('Gewonnen! Dafür erhälst du einen Wein für deinen Korb! <br> Drücke [R] um fortzufahren!');
+						checkItemCounter();
 						
 						
 					};

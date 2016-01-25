@@ -38,6 +38,9 @@ var cookie = 0;
 var game_status = 1;
 var keyUpAdded = false;
 
+// grandmashouse
+var startFieldGeoGH, startFieldMatGH, startFieldMeshGH;
+
 // sound
 var forestSnd = new Audio("sound/forest.wav");
 var stepSnd = new Audio("sound/steps.wav");
@@ -135,7 +138,7 @@ function init() {
 		
 		var geometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
 		//Change opacity to 0.0 to make cube invisible
-		var material = new THREE.MeshBasicMaterial({color:0xEEE9E9, transparent:true, opacity:0.1, side: THREE.DoubleSide});
+		var material = new THREE.MeshBasicMaterial({color:0xEEE9E9, transparent:true, opacity:0.0, side: THREE.DoubleSide});
 
 		userHitbox = new THREE.Mesh( geometry, material);
 		// quest position
@@ -163,14 +166,7 @@ function init() {
 		scene.add( qbaum );
 	});
 
-	loader.load( 'http://caro.x15.eu/haus-1.json', function( geometry, materials ) 
-	{
-		var material = new THREE.MeshFaceMaterial (materials);
-		haus = new THREE.Mesh( geometry, material );
-		haus.scale.set( 50, 50, 50 );
-		haus.position.set( -1400, 0, -200 );
-		scene.add( haus );
-	});
+	initGrandmasHouse();
 
 	/*loader.load( 'http://caro.x15.eu/wolf4.json', function( geometry, materials ) 
 	{
@@ -229,6 +225,26 @@ function checkPosition(){
 	if((x < 1470 && x > 1420) && (z > 1238 && z < 1288) && !questDone){
 		startApfelbaumQuest();
 	}
+	
+	if((x < -1390 && x > -1440) && (z > -75 && z < -25) && !endstateIsActive){
+		console.log("Grandmas house is here");
+		var time = strZeit;
+		if(itemCounter > 2){
+			endstateIsActive = true;
+			console.log("Gewonnen!");
+			clearTextMessage();  
+			appendTextMessage("Herzlichen Glueckwunsch! Du hast es geschafft! :) <br> Deine Zeit: "+strZeit+"<br>Deine Punkte: "+scoreBlumen);
+		}
+		else{
+			clearTextMessage();  
+			appendTextMessage("Du hast noch nicht alle Items! Komm erst wieder wenn du alles hast.");
+			setTimeout(
+				function() {
+				clearTextMessage();
+				}
+			, 2000);
+		}
+	}
 }
 
 function onWindowResize() {
@@ -258,6 +274,24 @@ function animate() {
 
 // Environment Trees -> now in tree.js
 
+
+function initGrandmasHouse(){
+	console.log("Building grandmas house");
+	startFieldGeoGH = new THREE.BoxGeometry(50 , 10, 50);
+	startFieldMatGH = new THREE.MeshBasicMaterial( { color: 0xff0000, side: THREE.DoubleSide } );
+	startFieldMeshGH = new THREE.Mesh( startFieldGeoGH, startFieldMatGH );
+	scene.add( startFieldMeshGH );
+	startFieldMeshGH.position.set(-1415, 5, -50);
+	
+	loader.load( 'http://caro.x15.eu/haus-1.json', function( geometry, materials ) 
+	{
+		var material = new THREE.MeshFaceMaterial (materials);
+		haus = new THREE.Mesh( geometry, material );
+		haus.scale.set( 50, 50, 50 );
+		haus.position.set( -1400, 0, -200 );
+		scene.add( haus );
+	});
+}
 
 // Environment Flowers
 function initBlumen() 
@@ -369,6 +403,18 @@ function initItems()
 	});
 }
 
+function checkItemCounter(){
+	if(itemCounter > 2){
+		clearTextMessage();  
+		appendTextMessage("Dein Korb ist voll! Du hast nun alle Sachen. Bring sie deiner Oma!");
+		setTimeout(
+			function() {
+				clearTextMessage();
+			}
+		, 2000);
+		startFieldMeshGH.material.color.setHex(0x00ff00);
+	}
+}
 
 // TabalugaQuest
 function initTabalugaQuest()

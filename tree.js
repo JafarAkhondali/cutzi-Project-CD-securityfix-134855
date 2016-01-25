@@ -87,10 +87,16 @@ function isTreePlacable(x, z){
 	if((x < -1000 && x > -1700) && (z > -1700 && z < -1100))
 		return false;
 	
-	//For ApfelbaumQuest, not trees here
+	//For ApfelbaumQuest, no trees here
 	if((x < 1650 && x > 1200) && (z > 1100 && z < 1600)){
 		return false;
 	}
+	
+	//For grandmas house, no trees here
+	if((x < 1490 && x > 1240) && (z > -261 && z < 100)){
+		return false;
+	}
+	
 	// Tree is placeable, so return true
 	else
 		return true;

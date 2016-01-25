@@ -21,6 +21,7 @@
 					clearTextHud();
 					appendTextHud();
 					apfelGet = true;
+					checkItemCounter();
 				}
 			//}
 		} 
@@ -43,6 +44,7 @@
 					clearTextHud();
 					appendTextHud();
 					pilzGet = true;
+					checkItemCounter();
 				}
 			//}
 		}
