@@ -57,9 +57,8 @@
 					&& user.position.z <= (itemBlumeZ+area) && user.position.z >= (itemBlumeZ-area) ) {
 					scoreBlumen += 100;
 					scene.remove( itemBlume );
-					itemCounter+=1;
 					clearTextMessage();
-					appendTextMessage('Blume wurde aufgesammelt. Aktueller Score = ' + scoreBlumen );
+					appendTextMessage('große Blume wurde aufgesammelt. Aktueller Score = ' + scoreBlumen );
 					setTimeout(
 						function() {
 							clearTextMessage();
