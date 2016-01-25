@@ -145,6 +145,12 @@ function startMemoryquest(){
 		user.position.setX(-1350);
 		user.position.setZ(-1220);
 		
+		pos.addVectors(newDir, userHitbox.position);
+		userHitbox.lookAt(pos);
+		userHitbox.position.setX(-1350);
+		userHitbox.position.setZ(-1220);
+		
+		
 		var relativeCameraOffset = new THREE.Vector3(0,50,200);
 
 			var cameraOffset = relativeCameraOffset.applyMatrix4( user.matrixWorld );
