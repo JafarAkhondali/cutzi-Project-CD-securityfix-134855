@@ -9,6 +9,7 @@
 	// move forwards/backwards/left/right
 		if (questTrue)
 		{	
+			stepSnd.pause();
 			var relativeCameraOffset = new THREE.Vector3(0,50,200);
 
 			var cameraOffset = relativeCameraOffset.applyMatrix4( userHitbox.matrixWorld );
@@ -23,9 +24,11 @@
 			);
 		} 
 		else if(memoryQuestActive){
+			stepSnd.pause();
 			startMemoryquest();
 		}
 		else if(apfelbaumQuestActive){
+			stepSnd.pause();
 			if(keyboard.pressed('left')){			
 				if(lastWasLeft){
 					keyboardCounter++;

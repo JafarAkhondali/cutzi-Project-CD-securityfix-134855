@@ -233,7 +233,7 @@ function checkPosition(){
 			endstateIsActive = true;
 			console.log("Gewonnen!");
 			clearTextMessage();  
-			appendTextMessage("Herzlichen Glueckwunsch! Du hast es geschafft! :) <br> Deine Zeit: "+strZeit+"<br>Deine Punkte: "+scoreBlumen);
+			appendTextMessage("Herzlichen Glueckwunsch! Du hast es geschafft! :) <br> Verleibende Zeit: "+strZeit+"<br>Deine Punkte: "+scoreBlumen);
 		}
 		else{
 			clearTextMessage();  
